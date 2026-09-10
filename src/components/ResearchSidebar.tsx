@@ -214,17 +214,17 @@ export function ResearchSidebar({
   return (
     <div className="flex min-h-0 flex-1 flex-col gap-1">
       <button
-        className="flex h-8 w-full items-center gap-2 rounded-md px-2 font-medium text-[#F4F1EA] text-sm transition hover:bg-white/[0.055]"
+        className="flex h-9 w-full items-center gap-2 rounded-lg bg-[#0062ff] px-3 font-medium text-white text-sm shadow-xs transition hover:bg-[#0052d9]"
         onClick={onNewResearch}
         type="button"
       >
-        <Plus className="size-4 shrink-0 text-[#BDB7AD]" />
-        <span className="truncate">New keyword research</span>
+        <Plus className="size-4 shrink-0 text-white" />
+        <span className="truncate">New keyword search</span>
       </button>
 
       <div className="px-2 pb-1 pt-4">
-        <div className="flex items-center gap-2 text-[#9F9A92] text-xs">
-          <span className="font-medium">Chats</span>
+        <div className="flex items-center justify-between text-muted-foreground text-xs uppercase tracking-wider font-semibold">
+          <span>Search History</span>
           {isLoading ? <Loader2 className="size-3 animate-spin" /> : null}
         </div>
       </div>
@@ -234,14 +234,14 @@ export function ResearchSidebar({
           <div className="space-y-3">
             {pinnedSessions.length > 0 ? (
               <div className="space-y-1">
-                <div className="px-2 text-[#9F9A92] text-xs">Pinned</div>
+                <div className="px-2 text-muted-foreground font-semibold text-[11px] uppercase tracking-wider">Pinned</div>
                 {renderRows(pinnedSessions)}
               </div>
             ) : null}
             {recentSessions.length > 0 ? (
               <div className="space-y-1">
                 {pinnedSessions.length > 0 ? (
-                  <div className="px-2 text-[#9F9A92] text-xs">Recent</div>
+                  <div className="px-2 text-muted-foreground font-semibold text-[11px] uppercase tracking-wider">Recent</div>
                 ) : null}
                 {renderRows(recentSessions)}
               </div>
@@ -251,7 +251,7 @@ export function ResearchSidebar({
           <div className="space-y-1 px-1 py-1">
             {Array.from({ length: 5 }).map((_, index) => (
               <div
-                className="h-8 rounded-lg bg-white/[0.035]"
+                className="h-8 rounded-lg bg-muted/60 animate-pulse"
                 key={index}
               />
             ))}

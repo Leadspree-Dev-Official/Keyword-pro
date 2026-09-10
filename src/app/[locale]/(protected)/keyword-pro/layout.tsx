@@ -32,7 +32,7 @@ function KeywordProLayoutInner({ children }: { children: ReactNode }) {
   }, [remorphBreadcrumbs]);
 
   return (
-    <div className="relative flex h-full min-h-0 flex-col bg-transparent font-sans text-foreground dark">
+    <div className="relative flex h-full min-h-0 flex-col bg-transparent font-sans text-foreground">
       <main className="relative flex min-h-0 flex-1 flex-col">
         <DashboardHeader breadcrumbs={breadcrumbs} replayKey={replayKey} />
         {children}

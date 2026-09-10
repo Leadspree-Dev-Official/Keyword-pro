@@ -14,6 +14,7 @@ import {
   trendTone,
 } from './format';
 import { MeterBar, Sparkline } from './Sparkline';
+import { AhrefsKdBadge } from './ahrefs-kd-gauge';
 
 export type Row = Record<string, unknown>;
 
@@ -31,10 +32,10 @@ export type Column = {
 };
 
 const INTENT_TONES: Record<string, string> = {
-  commercial: 'border-[#E8B673]/35 bg-[#E8B673]/12 text-[#E8B673]',
-  informational: 'border-[#7FA8D9]/35 bg-[#7FA8D9]/12 text-[#7FA8D9]',
-  navigational: 'border-[#B79BD6]/35 bg-[#B79BD6]/12 text-[#B79BD6]',
-  transactional: 'border-[#6FBF8B]/35 bg-[#6FBF8B]/12 text-[#6FBF8B]',
+  commercial: 'border-amber-500/30 bg-amber-500/10 text-amber-600 dark:text-amber-400',
+  informational: 'border-blue-500/30 bg-blue-500/10 text-blue-600 dark:text-blue-400',
+  navigational: 'border-purple-500/30 bg-purple-500/10 text-purple-600 dark:text-purple-400',
+  transactional: 'border-emerald-500/30 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400',
 };
 
 export function IntentBadge({ value }: { value: unknown }) {
@@ -119,11 +120,22 @@ const KEYWORD_COLUMNS: Column[] = [
   {
     key: 'keyword',
     label: 'Keyword',
-    width: 'min-w-[200px]',
+    width: 'min-w-[220px]',
     render: (row) => (
-      <span className="block max-w-[280px] truncate font-medium text-[#EDE7DC]">
-        {String(row.keyword ?? '-')}
-      </span>
+      <div className="flex items-center justify-between gap-2 max-w-[320px]">
+        <span
+          className="truncate font-medium text-foreground hover:text-[#0062ff] transition-colors cursor-pointer"
+          title={String(row.keyword ?? '')}
+        >
+          {String(row.keyword ?? '-')}
+        </span>
+        <span
+          className="text-[10px] uppercase font-bold text-muted-foreground/70 hover:text-foreground px-1 py-0.5 rounded border border-border/80 bg-muted/40 shrink-0 cursor-default"
+          title="SERP Overview"
+        >
+          SERP
+        </span>
+      </div>
     ),
     sortValue: (row) => (typeof row.keyword === 'string' ? row.keyword : ''),
   },
@@ -142,7 +154,7 @@ const KEYWORD_COLUMNS: Column[] = [
     numeric: true,
     title: 'Average monthly searches',
     render: (row) => (
-      <span className="tabular-nums text-[#EDE7DC]">
+      <span className="tabular-nums font-mono font-medium text-foreground">
         {compactNumber(row.search_volume)}
       </span>
     ),
@@ -208,10 +220,10 @@ const KEYWORD_COLUMNS: Column[] = [
   },
   {
     key: 'difficulty',
-    label: 'Difficulty',
+    label: 'KD',
     numeric: true,
-    title: 'Keyword difficulty, 0 to 100',
-    render: (row) => <MeterBar tone="difficulty" value={num(row.difficulty)} />,
+    title: 'Keyword Difficulty (0 to 100) on Ahrefs scale',
+    render: (row) => <AhrefsKdBadge value={num(row.difficulty)} />,
   },
   {
     key: 'main_intent',

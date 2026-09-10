@@ -73,11 +73,11 @@ export function ExportBar({
   });
 
   return (
-    <div className="flex flex-wrap items-center justify-between gap-2 border-white/8 border-b px-3 py-2">
-      <div className="flex items-center gap-2 text-[10px] uppercase tracking-[0.1em] text-[#7D7870]">
+    <div className="flex flex-wrap items-center justify-between gap-2 border-border/60 border-b bg-muted/20 px-3 py-2">
+      <div className="flex items-center gap-2 text-[10px] uppercase tracking-[0.1em] text-muted-foreground font-semibold">
         <span className="truncate">{endpointType}</span>
         {typeof cost === 'number' ? (
-          <span className="rounded-full border border-white/10 px-1.5 py-0.5 tabular-nums normal-case tracking-normal">
+          <span className="rounded-full border border-border bg-background px-2 py-0.5 tabular-nums normal-case tracking-normal font-mono font-medium text-foreground">
             {cost < 0.01 ? '<$0.01' : `$${cost.toFixed(3)}`}
           </span>
         ) : null}
@@ -179,11 +179,11 @@ function ExportButton({
   return (
     <button
       className={cn(
-        'inline-flex h-7 items-center gap-1.5 rounded-lg border px-2 text-[11px] transition',
-        'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F2A65A]/45',
+        'inline-flex h-7 items-center gap-1.5 rounded-md border px-2.5 text-xs transition shadow-2xs font-medium',
+        'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0062ff]/45',
         done
-          ? 'border-[#6FBF8B]/40 bg-[#6FBF8B]/10 text-[#6FBF8B]'
-          : 'border-white/10 text-[#9F9A92] hover:border-white/20 hover:bg-white/[0.05] hover:text-[#EDE7DC]',
+          ? 'border-emerald-500/40 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400'
+          : 'border-border/80 bg-background text-muted-foreground hover:bg-muted hover:text-foreground',
       )}
       disabled={busy}
       onClick={onClick}

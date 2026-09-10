@@ -241,14 +241,14 @@ export function ProtectedScrollShell({
   return (
     <div
       className={cn(
-        'relative flex h-full min-h-0 flex-col rounded-none bg-[#1F1F1F]',
+        'relative flex h-full min-h-0 flex-col rounded-none bg-background text-foreground',
         className
       )}
     >
-      <div className="relative min-h-0 flex-1 overflow-hidden rounded-none bg-[#1F1F1F]">
+      <div className="relative min-h-0 flex-1 overflow-hidden rounded-none bg-background">
         <div
           ref={viewportRef}
-          className="h-full min-h-0 overflow-y-scroll overflow-x-hidden bg-[#1F1F1F]"
+          className="h-full min-h-0 overflow-y-scroll overflow-x-hidden bg-background"
           style={{
             width: `calc(100% + ${NATIVE_SCROLLBAR_CLIP_PX}px)`,
             marginRight: `-${NATIVE_SCROLLBAR_CLIP_PX}px`,
@@ -256,7 +256,7 @@ export function ProtectedScrollShell({
         >
           <div
             data-workspace-canvas
-            className="min-h-full bg-[#1F1F1F]"
+            className="min-h-full bg-background"
             style={{
               // The scroll viewport is widened only to clip the native
               // scrollbar. Content must still center against the visible
@@ -288,7 +288,7 @@ export function ProtectedScrollShell({
               type="button"
               aria-label="Scroll page"
               onPointerDown={handleThumbPointerDown}
-              className="absolute right-0 w-[10px] rounded-full bg-[#9A9AA0] hover:bg-[#B4B4BA] transition-colors cursor-grab active:cursor-grabbing z-40"
+              className="absolute right-0 w-[10px] rounded-full bg-muted-foreground/40 hover:bg-muted-foreground/60 transition-colors cursor-grab active:cursor-grabbing z-40"
               style={{
                 top: `${metrics.thumbTop}px`,
                 height: `${metrics.thumbHeight}px`,

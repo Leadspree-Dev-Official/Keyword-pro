@@ -2,7 +2,7 @@
 
 import type { ResearchSessionSummary } from '@/lib/research/console-types';
 import { cn } from '@/lib/utils';
-import { Loader2, Pencil, Pin, PinOff, Trash2 } from 'lucide-react';
+import { Loader2, Pencil, Pin, PinOff, Search, Trash2 } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 
 export function ResearchSessionRow({
@@ -50,8 +50,8 @@ export function ResearchSessionRow({
         className={cn(
           'relative inline-flex size-10 items-center justify-center rounded-lg transition',
           isActive
-            ? 'bg-white/[0.09] text-[#F4F1EA]'
-            : 'text-[#B8B1A7] hover:bg-white/[0.06] hover:text-[#F4F1EA]',
+            ? 'bg-blue-500/10 text-blue-600 dark:text-blue-400'
+            : 'text-muted-foreground hover:bg-muted hover:text-foreground',
         )}
         onClick={onClick}
         title={session.title}
@@ -62,7 +62,7 @@ export function ResearchSessionRow({
         ) : session.isPinned ? (
           <Pin className="size-3.5" />
         ) : (
-          <span className="font-medium text-xs">{initial}</span>
+          <Search className="size-3.5 opacity-70" />
         )}
       </button>
     );
@@ -71,15 +71,15 @@ export function ResearchSessionRow({
   return (
     <div
       className={cn(
-        'group/research flex h-8 w-full items-center rounded-md text-sm transition',
+        'group/research flex h-8.5 w-full items-center rounded-md text-sm transition',
         isActive
-          ? 'bg-white/[0.08] text-[#F4F1EA]'
-          : 'bg-transparent text-[#C8C2B8] hover:bg-white/[0.055] hover:text-[#F4F1EA]',
+          ? 'bg-blue-500/10 text-blue-600 dark:text-blue-400 font-medium border-l-2 border-[#0062ff] pl-1.5'
+          : 'bg-transparent text-muted-foreground hover:bg-muted/60 hover:text-foreground',
       )}
     >
       {isEditing ? (
         <input
-          className="min-w-0 flex-1 rounded-md border border-[#F2A65A]/50 bg-[#1D1D1C] px-2 py-0.5 text-[#F4F1EA] text-sm outline-none"
+          className="min-w-0 flex-1 rounded-md border border-blue-500/50 bg-background px-2 py-0.5 text-foreground text-sm outline-none"
           onBlur={commitRename}
           onChange={(event) => setDraft(event.target.value)}
           onKeyDown={(event) => {

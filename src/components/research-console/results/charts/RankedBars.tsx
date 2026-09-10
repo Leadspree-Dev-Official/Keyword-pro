@@ -32,25 +32,25 @@ export function RankedBars({
       {items.map((item, index) => (
         <li className="group grid gap-1" key={`${item.label}-${index}`}>
           <div className="flex items-baseline gap-2">
-            <span className="w-4 shrink-0 tabular-nums text-[#5E5A54] text-[10px]">
+            <span className="w-4 shrink-0 tabular-nums text-muted-foreground/70 font-mono text-[10px]">
               {index + 1}
             </span>
             <span
-              className="min-w-0 flex-1 truncate text-[#D7D1C8] text-xs"
+              className="min-w-0 flex-1 truncate text-foreground text-xs font-medium"
               title={item.label}
             >
               {item.label}
             </span>
             {item.meta ? (
-              <span className="shrink-0 text-[#7D7870] text-[10px] tabular-nums">
+              <span className="shrink-0 text-muted-foreground text-[10px] tabular-nums font-mono">
                 {item.meta}
               </span>
             ) : null}
-            <span className="shrink-0 tabular-nums text-[#EDE7DC] text-xs">
+            <span className="shrink-0 tabular-nums font-semibold text-foreground text-xs font-mono">
               {compactNumber(item.value)}
             </span>
           </div>
-          <div className="ml-6 h-1.5 overflow-hidden rounded-full bg-white/[0.06]">
+          <div className="ml-6 h-1.5 overflow-hidden rounded-full bg-muted">
             <div
               className={cn(
                 'h-full rounded-full transition-[width] duration-500 ease-out motion-reduce:transition-none',
@@ -59,7 +59,7 @@ export function RankedBars({
                 width: `${Math.max(2, Math.min(100, item.share))}%`,
                 backgroundColor:
                   tone === 'positive'
-                    ? '#6FBF8B'
+                    ? '#10b981'
                     : (ACCENT_RAMP[index] ?? ACCENT_RAMP[ACCENT_RAMP.length - 1]),
               }}
             />

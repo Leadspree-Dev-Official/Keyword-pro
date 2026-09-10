@@ -11,8 +11,8 @@ import type { WebsiteConfig } from '@/types';
 export const websiteConfig: WebsiteConfig = {
   ui: {
     mode: {
-      defaultMode: 'dark',
-      enableSwitch: false,
+      defaultMode: 'light',
+      enableSwitch: true,
     },
   },
   metadata: {

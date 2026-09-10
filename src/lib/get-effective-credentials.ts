@@ -51,3 +51,22 @@ export async function getDataForSeoCredentials(userId?: string): Promise<{
 
   return { login, password };
 }
+
+export async function getSeRankingCredentials(userId?: string): Promise<{
+  apiKey: string;
+}> {
+  const creds = await storedCredentials(userId);
+
+  const apiKey =
+    creds?.serankingApiKey?.trim() || process.env.SERANKING_API_KEY;
+
+  if (!apiKey) {
+    throw new ByokKeysRequiredError(
+      'seranking',
+      ['seranking_api_key'],
+      'SE Ranking credentials required. Add them in Settings → Connections.',
+    );
+  }
+
+  return { apiKey };
+}

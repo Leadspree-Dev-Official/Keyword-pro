@@ -16,6 +16,7 @@ validateRuntimeEnvironment(process.env);
 const nextConfig: NextConfig = {
   reactStrictMode: true,
   poweredByHeader: false,
+  devIndicators: false,
 
   // Keep server-only Node packages out of the client bundle.
   serverExternalPackages: ['postgres', 'ioredis'],
@@ -28,7 +29,10 @@ const nextConfig: NextConfig = {
      * megabytes leaves room without inviting multi-megabyte writes; see
      * trimBundleForStorage, which does the actual shrinking.
      */
-    serverActions: { bodySizeLimit: '4mb' },
+    serverActions: {
+      bodySizeLimit: '4mb',
+      allowedOrigins: ['localhost:3002', '127.0.0.1:3002'],
+    },
   },
 
   images: {

@@ -178,11 +178,11 @@ export function BundlePanels({ panels }: { panels: Panels }) {
                   <div className="flex flex-wrap gap-1.5">
                     {serp.features.map((feature) => (
                       <span
-                        className="inline-flex items-center gap-1 rounded-full border border-white/10 bg-white/[0.04] px-2 py-0.5 text-[10px] text-[#9F9A92]"
+                        className="inline-flex items-center gap-1 rounded-full border border-border bg-muted/30 px-2.5 py-0.5 text-[10px] text-muted-foreground font-medium"
                         key={feature.name}
                       >
                         {feature.name.replace(/_/g, ' ')}
-                        <span className="tabular-nums text-[#7D7870]">
+                        <span className="tabular-nums font-semibold text-foreground">
                           {feature.value}
                         </span>
                       </span>
@@ -196,13 +196,13 @@ export function BundlePanels({ panels }: { panels: Panels }) {
                       className="flex items-baseline gap-2 text-xs"
                       key={`${entry.url ?? entry.title}-${index}`}
                     >
-                      <span className="w-5 shrink-0 tabular-nums text-[#5E5A54] text-[10px]">
+                      <span className="w-5 shrink-0 tabular-nums text-muted-foreground/70 text-[10px] font-mono">
                         {entry.position ?? index + 1}
                       </span>
                       <span className="min-w-0 flex-1">
                         {entry.url ? (
                           <a
-                            className="block truncate text-[#9FBEDE] transition hover:text-[#C3D8EF] hover:underline"
+                            className="block truncate text-[#0062ff] transition hover:underline font-medium"
                             href={entry.url}
                             rel="noopener noreferrer"
                             target="_blank"
@@ -210,17 +210,17 @@ export function BundlePanels({ panels }: { panels: Panels }) {
                             {entry.title}
                           </a>
                         ) : (
-                          <span className="block truncate text-[#D7D1C8]">
+                          <span className="block truncate text-foreground font-medium">
                             {entry.title}
                           </span>
                         )}
                         {entry.snippet ? (
-                          <span className="mt-0.5 line-clamp-1 text-[#7D7870] text-[11px]">
+                          <span className="mt-0.5 line-clamp-1 text-muted-foreground text-[11px]">
                             {entry.snippet}
                           </span>
                         ) : null}
                       </span>
-                      <span className="max-w-40 shrink-0 truncate text-[#5E5A54] text-[10px]">
+                      <span className="max-w-40 shrink-0 truncate text-muted-foreground/80 text-[10px] font-mono">
                         {entry.domain}
                       </span>
                     </li>
@@ -242,21 +242,21 @@ export function BundlePanels({ panels }: { panels: Panels }) {
                     className="flex items-baseline gap-2 text-xs"
                     key={entry.domain}
                   >
-                    <span className="w-5 shrink-0 tabular-nums text-[#5E5A54] text-[10px]">
+                    <span className="w-5 shrink-0 tabular-nums text-muted-foreground/70 text-[10px] font-mono">
                       {index + 1}
                     </span>
-                    <Globe className="size-3 shrink-0 self-center text-[#5E5A54]" />
-                    <span className="min-w-0 flex-1 truncate text-[#D7D1C8]">
+                    <Globe className="size-3 shrink-0 self-center text-muted-foreground/70" />
+                    <span className="min-w-0 flex-1 truncate text-foreground font-medium">
                       {entry.domain}
                     </span>
                     {entry.intersections !== null ? (
-                      <span className="shrink-0 tabular-nums text-[#7D7870] text-[10px]">
+                      <span className="shrink-0 tabular-nums text-muted-foreground text-[10px] font-mono">
                         {compactNumber(entry.intersections)} keywords
                       </span>
                     ) : null}
                     {entry.avgPosition !== null ? (
                       <span
-                        className="shrink-0 tabular-nums text-[#9F9A92] text-[10px]"
+                        className="shrink-0 tabular-nums text-muted-foreground/80 text-[10px] font-mono"
                         title="Average position across the set"
                       >
                         avg #{entry.avgPosition}
@@ -301,15 +301,15 @@ function Distribution({ label, values }: { label: string; values: NamedValue[] }
   const max = Math.max(1, ...values.map((entry) => entry.value));
   return (
     <div className="grid gap-1.5">
-      <div className="text-[#7D7870] text-[10px] uppercase tracking-[0.1em]">
+      <div className="text-muted-foreground text-[10px] uppercase font-semibold tracking-wider">
         {label}
       </div>
       {values.map((entry, index) => (
         <div className="flex items-center gap-2" key={entry.name}>
-          <span className="w-14 shrink-0 text-[#C9C4BC] text-[11px]">
+          <span className="w-14 shrink-0 text-foreground text-[11px] font-medium">
             {entry.name}
           </span>
-          <span className="h-1.5 flex-1 overflow-hidden rounded-full bg-white/[0.06]">
+          <span className="h-1.5 flex-1 overflow-hidden rounded-full bg-muted">
             <span
               className="block h-full rounded-full"
               style={{
@@ -319,7 +319,7 @@ function Distribution({ label, values }: { label: string; values: NamedValue[] }
               }}
             />
           </span>
-          <span className="w-8 shrink-0 text-right tabular-nums text-[#9F9A92] text-[11px]">
+          <span className="w-8 shrink-0 text-right tabular-nums text-muted-foreground text-[11px] font-mono">
             {Math.round(entry.value)}
           </span>
         </div>
@@ -333,7 +333,7 @@ function ChipList({ items }: { items: string[] }) {
     <ul className="flex flex-wrap gap-1.5">
       {items.slice(0, 20).map((item, index) => (
         <li
-          className="rounded-lg border border-white/8 bg-white/[0.03] px-2 py-1 text-[#C9C4BC] text-[11px]"
+          className="rounded-md border border-border bg-muted/40 px-2.5 py-1 text-foreground text-xs font-medium"
           key={`${item}-${index}`}
         >
           {item}
@@ -359,16 +359,18 @@ function Panel({
   return (
     <section
       className={cn(
-        'min-w-0 rounded-2xl border border-white/8 bg-[#1A1A19] p-3',
+        'min-w-0 rounded-xl border border-border bg-card p-4 shadow-2xs',
         className,
       )}
     >
-      <header className="mb-2 flex items-start gap-2">
-        <Icon className="mt-0.5 size-3.5 shrink-0 text-[#F2A65A]" />
+      <header className="mb-3 flex items-start gap-2.5">
+        <div className="flex size-7 items-center justify-center rounded-md bg-blue-500/10 text-[#0062ff] shrink-0 mt-0.5">
+          <Icon className="size-4" />
+        </div>
         <div className="min-w-0">
-          <h3 className="font-medium text-[#EDE7DC] text-xs">{title}</h3>
+          <h3 className="font-bold text-foreground text-sm">{title}</h3>
           {subtitle ? (
-            <p className="mt-0.5 text-[#7D7870] text-[10px] leading-4">
+            <p className="mt-0.5 text-muted-foreground text-xs leading-4">
               {subtitle}
             </p>
           ) : null}

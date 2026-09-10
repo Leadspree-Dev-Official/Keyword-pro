@@ -68,6 +68,7 @@ export const keywordProApiCredentials = pgTable(
     userId: text('user_id').primaryKey(),
     dataforseoLogin: text('dataforseo_login'),
     dataforseoPassword: text('dataforseo_password'),
+    serankingApiKey: text('seranking_api_key'),
     createdAt: timestamp('created_at').notNull().defaultNow(),
     updatedAt: timestamp('updated_at').notNull().defaultNow(),
   },

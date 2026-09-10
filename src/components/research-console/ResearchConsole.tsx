@@ -81,6 +81,7 @@ import {
   Clock,
   Globe,
   Loader2,
+  Search,
   SlidersHorizontal,
   type LucideIcon,
   ServerOff,
@@ -1395,7 +1396,7 @@ export function ResearchConsole({
     return (
       <div
         className={cn(
-          'relative flex h-full min-h-[calc(100dvh-var(--header-height))] w-full flex-1 flex-col overflow-hidden bg-[#1F1F1F]',
+          'relative flex h-full min-h-[calc(100dvh-var(--header-height))] w-full flex-1 flex-col overflow-hidden bg-background text-foreground',
           className,
         )}
       >
@@ -1409,7 +1410,7 @@ export function ResearchConsole({
               'mx-auto flex min-h-full w-full flex-col items-center',
               isConsoleEmpty
                 ? 'py-[clamp(1.5rem,5vh,2.5rem)]'
-                : 'pt-[clamp(2rem,9vh,6rem)] pb-[clamp(1.5rem,5vh,2.5rem)]',
+                : 'pt-[clamp(1.5rem,5vh,3rem)] pb-[clamp(1.5rem,5vh,2.5rem)]',
             )}
             style={{ maxWidth: 'var(--console-measure-wide)' }}
           >
@@ -1427,13 +1428,23 @@ export function ResearchConsole({
                     className="flex w-full flex-col items-center"
                     style={{ maxWidth: 'var(--console-measure)' }}
                   >
-                  <h1 className="text-balance px-2 font-normal text-[#EDE7DC] text-[clamp(1.35rem,4.4vw,2.55rem)] leading-[1.12] tracking-normal">
-                    {heading}
-                  </h1>
+                  <div className="flex flex-col items-center text-center mb-1">
+                    <div className="flex items-center gap-2 mb-1">
+                      <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-foreground">
+                        Keywords Explorer
+                      </h1>
+                      <span className="text-[11px] font-bold uppercase tracking-wider bg-blue-500/10 text-[#0062ff] px-2 py-0.5 rounded-md border border-blue-500/20">
+                        Google
+                      </span>
+                    </div>
+                    <p className="text-xs sm:text-sm text-muted-foreground">
+                      Discover keyword ideas, monthly search volume, keyword difficulty (KD), and ranking metrics.
+                    </p>
+                  </div>
 
-                  <div className="mt-[clamp(1.25rem,3vh,1.75rem)] w-full rounded-[clamp(20px,2.5vw,30px)] border border-white/10 bg-[#262625] p-3 text-left shadow-[0_18px_54px_rgba(0,0,0,0.18),inset_0_1px_0_rgba(255,255,255,0.045)] sm:p-4">
+                  <div className="mt-4 w-full rounded-xl border border-border bg-card p-3.5 text-left shadow-xs transition-all focus-within:border-[#0062ff] focus-within:ring-2 focus-within:ring-[#0062ff]/15 sm:p-4">
                     <textarea
-                      className="h-[clamp(56px,9vh,78px)] max-h-[190px] w-full resize-none bg-transparent px-2 pt-1 text-[#F4F4F5] text-base leading-7 outline-none placeholder:text-white/35 focus:outline-none focus-visible:outline-none focus-visible:ring-0 focus-visible:ring-offset-0 sm:text-lg"
+                      className="h-[clamp(56px,9vh,78px)] max-h-[190px] w-full resize-none bg-transparent px-2 pt-1 text-foreground text-base leading-7 outline-none placeholder:text-muted-foreground/60 focus:outline-none focus-visible:outline-none focus-visible:ring-0 focus-visible:ring-offset-0 sm:text-lg"
                       onChange={(event) => {
                         const value = event.target.value;
                         if (batchSimpleField) {
@@ -1464,7 +1475,7 @@ export function ResearchConsole({
                       value={chatTextareaValue}
                     />
 
-                    <div className="mt-3 flex flex-col gap-3 border-white/8 border-t px-1 pt-3">
+                    <div className="mt-3 flex flex-col gap-3 border-border/60 border-t px-1 pt-3">
                       <div className="flex flex-wrap items-center justify-between gap-x-3 gap-y-2">
                         <div className="flex min-w-0 flex-1 basis-full items-center gap-2 sm:basis-auto sm:gap-3">
                           <ModeTabs
@@ -1477,8 +1488,8 @@ export function ResearchConsole({
                             options={MODE_TAB_OPTIONS}
                           />
                           {activeSubcategoryForChip && activeEndpointChipLabel ? (
-                            <span className="hidden min-w-0 items-center gap-1.5 text-[#EDE7DC] text-xs font-medium sm:inline-flex">
-                              <span className="truncate text-[#9F9A92]">
+                            <span className="hidden min-w-0 items-center gap-1.5 text-foreground text-xs font-medium sm:inline-flex">
+                              <span className="truncate text-muted-foreground">
                                 {activeSubcategoryForChip.label} ·
                               </span>
                               <span className="truncate">
@@ -1493,13 +1504,13 @@ export function ResearchConsole({
                             aria-label="Advanced endpoints"
                             aria-pressed={advancedMode}
                             className={cn(
-                              'group/adv relative inline-flex size-10 shrink-0 items-center justify-center overflow-hidden rounded-xl border sm:size-11',
+                              'group/adv relative inline-flex size-10 shrink-0 items-center justify-center overflow-hidden rounded-lg border sm:size-10',
                               'transition-[background-color,border-color,color] duration-200 ease-out',
-                              'active:scale-[0.96] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F2A65A]/55',
+                              'active:scale-[0.96] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0062ff]/55',
                               'motion-reduce:transition-none motion-reduce:active:scale-100',
                               advancedMode
-                                ? 'border-[#F2A65A]/70 bg-[#F2A65A]/[0.12] text-[#F2A65A]'
-                                : 'border-white/10 bg-[#1D1D1C] text-white/58 hover:border-white/20 hover:bg-white/[0.055] hover:text-white/86',
+                                ? 'border-[#0062ff]/70 bg-[#0062ff]/[0.12] text-[#0062ff]'
+                                : 'border-border bg-background text-muted-foreground hover:bg-muted hover:text-foreground',
                             )}
                             onClick={handleAdvancedToggle}
                             title={
@@ -1516,7 +1527,7 @@ export function ResearchConsole({
                                 scale: advancedMode ? 1 : 0,
                                 opacity: advancedMode ? 1 : 0,
                               }}
-                              className="pointer-events-none absolute inset-0 rounded-xl bg-[#F2A65A]/10"
+                              className="pointer-events-none absolute inset-0 rounded-lg bg-[#0062ff]/10"
                               initial={false}
                               transition={{
                                 duration: reduceMotion ? 0 : 0.28,
@@ -1540,7 +1551,7 @@ export function ResearchConsole({
                             <PopoverTrigger asChild>
                               <button
                                 aria-label="Keyword targeting"
-                                className="inline-flex size-10 shrink-0 items-center justify-center rounded-xl border border-white/10 bg-[#1D1D1C] text-white/58 transition hover:border-white/16 hover:bg-white/[0.055] hover:text-white/86 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F2A65A]/55 sm:size-11"
+                                className="inline-flex size-10 shrink-0 items-center justify-center rounded-lg border border-border bg-background text-muted-foreground transition hover:bg-muted hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0062ff]/55 sm:size-10"
                                 title="Research targeting"
                                 type="button"
                               >
@@ -1549,17 +1560,17 @@ export function ResearchConsole({
                             </PopoverTrigger>
                             <PopoverContent
                               align="end"
-                              className="w-[min(340px,calc(100vw-2rem))] rounded-2xl border-white/12 bg-[#252524] p-3 text-[#EDE7DC] shadow-[0_24px_80px_rgba(0,0,0,0.48)] duration-200 ease-out"
+                              className="w-[min(340px,calc(100vw-2rem))] rounded-xl border border-border bg-popover p-3.5 text-popover-foreground shadow-lg duration-200 ease-out"
                               side="top"
                               sideOffset={10}
                             >
                               <div className="grid gap-2">
-                                <label className="grid gap-1 text-[#9F9A92] text-xs">
+                                <label className="grid gap-1 text-muted-foreground text-xs font-medium">
                                   Country
                                   <span className="relative block">
                                     <select
                                       aria-label="Keyword country"
-                                      className="h-10 w-full cursor-pointer appearance-none rounded-xl border border-white/10 bg-[#1D1D1C] py-0 pr-10 pl-3 text-[#EDE7DC] text-sm outline-none transition hover:border-white/16 focus:border-[#F2A65A]/65"
+                                      className="h-9 w-full cursor-pointer appearance-none rounded-lg border border-border bg-background py-0 pr-10 pl-3 text-foreground text-sm outline-none transition hover:border-border/80 focus:border-[#0062ff]"
                                       onChange={(event) => {
                                         const location = event.target.value;
                                         // Language coverage is per country, so a
@@ -1585,16 +1596,16 @@ export function ResearchConsole({
                                     </select>
                                     <ChevronDown
                                       aria-hidden
-                                      className="pointer-events-none absolute top-1/2 right-3 size-4 -translate-y-1/2 text-[#C9C4BC]"
+                                      className="pointer-events-none absolute top-1/2 right-3 size-4 -translate-y-1/2 text-muted-foreground"
                                     />
                                   </span>
                                 </label>
-                                <label className="grid gap-1 text-[#9F9A92] text-xs">
+                                <label className="grid gap-1 text-muted-foreground text-xs font-medium">
                                   Language
                                   <span className="relative block">
                                     <select
                                       aria-label="Keyword language"
-                                      className="h-10 w-full cursor-pointer appearance-none rounded-xl border border-white/10 bg-[#1D1D1C] py-0 pr-10 pl-3 text-[#EDE7DC] text-sm outline-none transition hover:border-white/16 focus:border-[#F2A65A]/65"
+                                      className="h-9 w-full cursor-pointer appearance-none rounded-lg border border-border bg-background py-0 pr-10 pl-3 text-foreground text-sm outline-none transition hover:border-border/80 focus:border-[#0062ff]"
                                       onChange={(event) =>
                                         handleTargetingChange({
                                           ...filters,
@@ -1632,11 +1643,11 @@ export function ResearchConsole({
                                     </select>
                                     <ChevronDown
                                       aria-hidden
-                                      className="pointer-events-none absolute top-1/2 right-3 size-4 -translate-y-1/2 text-[#C9C4BC]"
+                                      className="pointer-events-none absolute top-1/2 right-3 size-4 -translate-y-1/2 text-muted-foreground"
                                     />
                                   </span>
                                 </label>
-                                <p className="text-[#7D7870] text-[10px] leading-4">
+                                <p className="text-muted-foreground text-[10px] leading-4">
                                   {languageGroups.supported.length} valid for{' '}
                                   {selectedLocation?.name ?? 'this market'}, {' '}
                                   {LANGUAGE_OPTIONS.length} across{' '}
@@ -1651,14 +1662,12 @@ export function ResearchConsole({
                           <button
                             aria-label={
                               runCostLabel
-                                ? `Run research, about ${formatCents(batchCents)}`
-                                : 'Run research'
+                                ? `Search keywords, about ${formatCents(batchCents)}`
+                                : 'Search keywords'
                             }
                             className={cn(
-                              'inline-flex h-10 shrink-0 items-center justify-center gap-1.5 rounded-xl bg-[#F2A65A] px-0 font-medium text-[#17120D] text-xs transition hover:bg-[#F4B46E] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F2A65A]/55 focus-visible:ring-offset-2 focus-visible:ring-offset-[#262625] disabled:cursor-not-allowed disabled:opacity-45 sm:h-11',
-                              // Must key on whether a label renders, or the
-                              // text is clipped inside a 44px icon button.
-                              runCostLabel ? 'px-3 sm:px-3.5' : 'w-10 sm:w-11',
+                              'inline-flex h-10 shrink-0 items-center justify-center gap-2 rounded-lg bg-[#ff5a00] px-4 font-semibold text-white text-xs sm:text-sm shadow-xs transition hover:bg-[#e55000] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#ff5a00]/50 disabled:cursor-not-allowed disabled:opacity-45',
+                              runCostLabel ? 'px-3 sm:px-4' : 'w-auto px-4',
                             )}
                             disabled={isBusy || !endpointReady}
                             onClick={runResearch}
@@ -1669,18 +1678,19 @@ export function ResearchConsole({
                                 : (missingInputsHint ??
                                   (runCallCount > 1
                                     ? `Run ${runCallCount} endpoints, ${formatCents(batchCents)}`
-                                    : 'Run'))
+                                    : 'Search'))
                             }
                             type="button"
                           >
                             {isBusy ? (
-                              <Loader2 className="size-5 animate-spin" />
+                              <Loader2 className="size-4 animate-spin" />
                             ) : (
-                              <ArrowUp className="size-6" />
+                              <Search className="size-4" />
                             )}
+                            <span>{isBusy ? 'Searching...' : 'Search'}</span>
                             {!isBusy && runCostLabel ? (
-                              <span className="whitespace-nowrap">
-                                {runCostLabel}
+                              <span className="text-[11px] opacity-85 font-mono">
+                                ({runCostLabel})
                               </span>
                             ) : null}
                           </button>
@@ -1738,7 +1748,7 @@ export function ResearchConsole({
                     // The gap before the first result lands: the run is
                     // already spending, so the page must say so.
                     <div
-                      className="mt-3 w-full rounded-2xl border border-white/8 border-dashed bg-[#1A1A19] py-6"
+                      className="mt-3 w-full rounded-xl border border-border border-dashed bg-card py-6"
                       style={{ maxWidth: 'var(--console-measure-wide)' }}
                     >
                       <Loading label={endpointStatusText} screenHFull={false} />
@@ -1753,7 +1763,7 @@ export function ResearchConsole({
                       {endpointState.results.map((result) => (
                         <div className="min-w-0" key={result.type}>
                           {endpointState.results.length > 1 ? (
-                            <p className="mb-1.5 px-1 font-medium text-[#9F9A92] text-xs">
+                            <p className="mb-1.5 px-1 font-medium text-muted-foreground text-xs">
                               {result.label}
                             </p>
                           ) : null}

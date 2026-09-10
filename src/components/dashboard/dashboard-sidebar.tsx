@@ -89,26 +89,22 @@ export function DashboardSidebar({
                 onClick={handleNewResearch}
                 title="New keyword research"
                 className={cn(
-                  'flex h-8 w-full items-center gap-2 rounded-md transition-colors',
-                  'cursor-pointer hover:bg-white/[0.055]',
+                  'flex h-9 w-full items-center gap-2.5 rounded-lg transition-colors',
+                  'cursor-pointer hover:bg-muted/60',
                   isCollapsed ? 'justify-center px-0' : 'px-1.5',
                 )}
               >
                 <Logo
                   className={cn(
-                    'text-[#F4F1EA]',
-                    isCollapsed ? 'size-7' : undefined,
+                    isCollapsed ? 'size-7' : 'size-8',
                   )}
                 />
                 {!isCollapsed && (
-                  // Two weights on one line: the name carries the size, the
-                  // qualifier stays small so it reads as a suffix rather than
-                  // a second word competing with it.
-                  <span className="flex min-w-0 items-baseline gap-1.5 truncate font-semibold text-[#F4F1EA] tracking-tight">
-                    <span className="truncate text-xl leading-none">
+                  <span className="flex min-w-0 items-center gap-1.5 truncate tracking-tight">
+                    <span className="truncate text-lg font-bold text-foreground">
                       {appName}
                     </span>
-                    <span className="text-base leading-none text-[#F4F1EA]/65">
+                    <span className="text-[10px] font-bold uppercase tracking-wider bg-[#ff5a00] text-white px-1.5 py-0.5 rounded shadow-2xs">
                       {appQualifier}
                     </span>
                   </span>

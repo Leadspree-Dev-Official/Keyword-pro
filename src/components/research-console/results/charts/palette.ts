@@ -41,31 +41,29 @@ export const DIFFICULTY_COLORS = [
 ];
 
 /**
- * A ramp from the app's accent, for measures with no inherent meaning per
- * band, such as a ranked bar list. Mirrors the reference app's single-hue
- * ramp rather than a rainbow: rank is already carried by position, so the
- * colour only needs to recede.
+ * A ramp from Ahrefs royal blue accent, for measures with no inherent meaning per
+ * band, such as a ranked bar list.
  */
 export const ACCENT_RAMP = [
-  '#F2A65A',
-  '#E39A55',
-  '#D08D51',
-  '#B87F4D',
-  '#9E7049',
-  '#856245',
+  '#0062ff',
+  '#2277fc',
+  '#448cf9',
+  '#66a1f7',
+  '#8bb6f5',
+  '#b0cbf4',
 ];
 
 export const CHART_INK = {
   /** Axis lines and gridlines. */
-  grid: 'rgba(255,255,255,0.07)',
-  axis: '#7D7870',
-  label: '#9F9A92',
-  strong: '#EDE7DC',
-  surface: '#1A1A19',
-  surfaceRaised: '#252524',
-  border: 'rgba(255,255,255,0.10)',
+  grid: 'rgba(120,130,150,0.15)',
+  axis: 'rgba(120,130,150,0.6)',
+  label: 'rgba(120,130,150,0.85)',
+  strong: 'currentColor',
+  surface: 'rgba(120,130,150,0.05)',
+  surfaceRaised: 'rgba(120,130,150,0.1)',
+  border: 'rgba(120,130,150,0.2)',
   /** The opportunity quadrant; matches the "Easiest wins" bars. */
-  sweetSpot: '#6FBF8B',
+  sweetSpot: '#10b981',
 } as const;
 
 /**

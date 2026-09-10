@@ -104,6 +104,7 @@ export const getConnections = userActionClient.action(async ({ ctx }) => {
       dataforseo: Boolean(
         process.env.DATAFORSEO_LOGIN && process.env.DATAFORSEO_PASSWORD,
       ),
+      seranking: Boolean(process.env.SERANKING_API_KEY),
     },
   };
 });
@@ -111,6 +112,7 @@ export const getConnections = userActionClient.action(async ({ ctx }) => {
 const saveConnectionsSchema = z.object({
   dataforseoLogin: z.string().nullable().optional(),
   dataforseoPassword: z.string().nullable().optional(),
+  serankingApiKey: z.string().nullable().optional(),
 });
 
 export const saveConnections = userActionClient
@@ -123,7 +125,7 @@ export const saveConnections = userActionClient
 
 const clearConnectionSchema = z.object({
   fields: z.array(
-    z.enum(['dataforseoLogin', 'dataforseoPassword']),
+    z.enum(['dataforseoLogin', 'dataforseoPassword', 'serankingApiKey']),
   ),
 });
 
@@ -140,7 +142,9 @@ export const clearConnection = userActionClient
     return { success: true };
   });
 
-const testConnectionSchema = z.object({ provider: z.literal('dataforseo') });
+const testConnectionSchema = z.object({
+  provider: z.enum(['dataforseo', 'seranking']),
+});
 
 /**
  * Live check against the provider, resolving the key the same way a real run
@@ -149,42 +153,82 @@ const testConnectionSchema = z.object({ provider: z.literal('dataforseo') });
  */
 export const testConnection = userActionClient
   .schema(testConnectionSchema)
-  .action(async ({ ctx }) => {
+  .action(async ({ parsedInput: { provider }, ctx }) => {
     const userId = (ctx as Ctx).user.id;
     const creds = await getApiCredentials(userId);
 
     try {
-      const login =
-        creds?.dataforseoLogin?.trim() || process.env.DATAFORSEO_LOGIN;
-      const password =
-        creds?.dataforseoPassword?.trim() || process.env.DATAFORSEO_PASSWORD;
-      if (!login || !password) {
-        return { success: false, error: 'No DataForSEO credentials set.' };
-      }
-      const auth = Buffer.from(`${login}:${password}`).toString('base64');
-      const res = await fetch(
-        'https://api.dataforseo.com/v3/appendix/user_data',
-        { headers: { Authorization: `Basic ${auth}` } },
-      );
-      if (!res.ok) {
+      if (provider === 'dataforseo') {
+        const login =
+          creds?.dataforseoLogin?.trim() || process.env.DATAFORSEO_LOGIN;
+        const password =
+          creds?.dataforseoPassword?.trim() || process.env.DATAFORSEO_PASSWORD;
+        if (!login || !password) {
+          return { success: false, error: 'No DataForSEO credentials set.' };
+        }
+        const auth = Buffer.from(`${login}:${password}`).toString('base64');
+        const res = await fetch(
+          'https://api.dataforseo.com/v3/appendix/user_data',
+          { headers: { Authorization: `Basic ${auth}` } },
+        );
+        if (!res.ok) {
+          return {
+            success: false,
+            error: `DataForSEO returned ${res.status}.`,
+          };
+        }
+        // user_data carries the account balance; say it, since every run
+        // spends from it.
+        const body = (await res.json().catch(() => null)) as {
+          tasks?: Array<{ result?: Array<{ money?: { balance?: number } }> }>;
+        } | null;
+        const balance = body?.tasks?.[0]?.result?.[0]?.money?.balance;
         return {
-          success: false,
-          error: `DataForSEO returned ${res.status}.`,
+          success: true,
+          message:
+            typeof balance === 'number'
+              ? `Credentials work. Balance $${balance.toFixed(2)}.`
+              : 'DataForSEO credentials work.',
         };
       }
-      // user_data carries the account balance; say it, since every run
-      // spends from it.
-      const body = (await res.json().catch(() => null)) as {
-        tasks?: Array<{ result?: Array<{ money?: { balance?: number } }> }>;
-      } | null;
-      const balance = body?.tasks?.[0]?.result?.[0]?.money?.balance;
-      return {
-        success: true,
-        message:
-          typeof balance === 'number'
-            ? `Credentials work. Balance $${balance.toFixed(2)}.`
-            : 'DataForSEO credentials work.',
-      };
+
+      if (provider === 'seranking') {
+        const apiKey =
+          creds?.serankingApiKey?.trim() || process.env.SERANKING_API_KEY;
+        if (!apiKey) {
+          return { success: false, error: 'No SE Ranking credentials set.' };
+        }
+        const res = await fetch(
+          'https://api.seranking.com/v1/account/subscription',
+          {
+            headers: {
+              Authorization: `Token ${apiKey}`,
+              Accept: 'application/json',
+            },
+          },
+        );
+        if (!res.ok) {
+          return {
+            success: false,
+            error: `SE Ranking returned ${res.status}.`,
+          };
+        }
+        const body = (await res.json().catch(() => null)) as {
+          status?: string;
+          units_left?: number;
+          units_limit?: number;
+        } | null;
+        const unitsLeft = body?.units_left;
+        return {
+          success: true,
+          message:
+            typeof unitsLeft === 'number'
+              ? `Credentials work. Balance: ${unitsLeft.toLocaleString()} units left.`
+              : 'SE Ranking credentials work.',
+        };
+      }
+
+      return { success: false, error: 'Unknown provider.' };
     } catch (error) {
       return {
         success: false,

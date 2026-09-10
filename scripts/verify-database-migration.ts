@@ -124,7 +124,7 @@ async function tableOids(sql: Sql): Promise<Record<string, string>> {
 async function stableSnapshot(sql: Sql): Promise<StableSnapshot> {
   const credentials = await sql`
     select user_id, gemini_api_key, scrapecreators_api_key,
-      dataforseo_login, dataforseo_password
+      dataforseo_login, dataforseo_password, seranking_api_key
     from public.keyword_pro_api_credentials
     order by user_id
   `;
@@ -262,6 +262,7 @@ async function verifyFreshDatabase(url: string): Promise<number> {
     const columns = await credentialColumns(sql);
     assert(!columns.includes('gemini_api_key'));
     assert(!columns.includes('scrapecreators_api_key'));
+    assert(columns.includes('seranking_api_key'));
 
     const second = await migrateDatabase({ databaseUrl: url, env: process.env });
     assert.equal(second.applied, false);
@@ -270,7 +271,7 @@ async function verifyFreshDatabase(url: string): Promise<number> {
       select count(*)::int as count
       from public.keyword_pro_schema_migrations
     `;
-    assert.equal(ledger[0]?.count, 1);
+    assert.equal(ledger[0]?.count, 2);
     return 7;
   } finally {
     await sql.end({ timeout: 5 });
@@ -304,6 +305,7 @@ async function verifyLegacyDatabase(url: string): Promise<number> {
     const columns = await credentialColumns(sql);
     assert(columns.includes('gemini_api_key'));
     assert(columns.includes('scrapecreators_api_key'));
+    assert(columns.includes('seranking_api_key'));
 
     const second = await migrateDatabase({ databaseUrl: url, env: process.env });
     assert.equal(second.applied, false);

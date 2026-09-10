@@ -1,7 +1,7 @@
 export const BYOK_KEYS_REQUIRED_CODE = 'BYOK_KEYS_REQUIRED';
 const BYOK_KEYS_REQUIRED_PREFIX = `[${BYOK_KEYS_REQUIRED_CODE}]`;
 
-export type ByokProvider = 'dataforseo';
+export type ByokProvider = 'dataforseo' | 'seranking';
 
 export class ByokKeysRequiredError extends Error {
   readonly code = BYOK_KEYS_REQUIRED_CODE;
@@ -32,7 +32,8 @@ export function isByokKeysRequiredMessage(message?: string | null): boolean {
   const normalized = message.toLowerCase();
   return (
     message.includes(BYOK_KEYS_REQUIRED_CODE) ||
-    normalized.includes('dataforseo credentials required')
+    normalized.includes('dataforseo credentials required') ||
+    normalized.includes('se ranking credentials required')
   );
 }
 

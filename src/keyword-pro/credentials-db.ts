@@ -26,11 +26,13 @@ export const API_CREDENTIAL_MASKED_PLACEHOLDER = '********';
 
 export type ApiCredentialField =
   | 'dataforseoLogin'
-  | 'dataforseoPassword';
+  | 'dataforseoPassword'
+  | 'serankingApiKey';
 
 export const API_CREDENTIAL_FIELDS: ApiCredentialField[] = [
   'dataforseoLogin',
   'dataforseoPassword',
+  'serankingApiKey',
 ];
 
 export type ApiCredentialsInput = Partial<

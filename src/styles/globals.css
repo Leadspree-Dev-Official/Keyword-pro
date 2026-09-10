@@ -44,6 +44,14 @@
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
 
+  --color-ahrefs-navy: var(--ahrefs-navy);
+  --color-ahrefs-navy-hover: var(--ahrefs-navy-hover);
+  --color-ahrefs-navy-border: var(--ahrefs-navy-border);
+  --color-ahrefs-blue: var(--ahrefs-blue);
+  --color-ahrefs-blue-hover: var(--ahrefs-blue-hover);
+  --color-ahrefs-orange: var(--ahrefs-orange);
+  --color-ahrefs-orange-hover: var(--ahrefs-orange-hover);
+
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
@@ -271,7 +279,7 @@
   color: #fb923c;
 }
 
-/* Light theme - Cursor-inspired warm light */
+/* Light theme - Ahrefs clean enterprise light */
 :root {
   /*
    * One measure for the research console: the heading, the composer and the
@@ -279,94 +287,110 @@
    * width or zoom level. Grows with the viewport, capped so long result tables
    * stay readable.
    */
-  --console-measure: min(100%, 60rem);
+  --console-measure: min(100%, 64rem);
 
   /*
    * Results need more room than the composer: a keyword table is 12+ columns.
    * The composer keeps the narrow measure so prompt text stays readable.
    */
-  --console-measure-wide: min(100%, 84rem);
+  --console-measure-wide: min(100%, 88rem);
 
-  --background: #fafaf9;
-  --foreground: #1c1917;
+  --ahrefs-navy: #141824;
+  --ahrefs-navy-hover: #1e2438;
+  --ahrefs-navy-border: #232a3e;
+  --ahrefs-blue: #0062ff;
+  --ahrefs-blue-hover: #0052d9;
+  --ahrefs-orange: #ff5a00;
+  --ahrefs-orange-hover: #e55000;
+
+  --background: #f4f5f8;
+  --foreground: #141824;
   --card: #ffffff;
-  --card-foreground: #1c1917;
+  --card-foreground: #141824;
   --popover: #ffffff;
-  --popover-foreground: #1c1917;
-  --primary: #f97316;
+  --popover-foreground: #141824;
+  --primary: #0062ff;
   --primary-foreground: #ffffff;
-  --secondary: #f5f5f4;
-  --secondary-foreground: #1c1917;
-  --muted: #f5f5f4;
-  --muted-foreground: #78716c;
-  --accent: #fff7ed;
-  --accent-foreground: #c2410c;
+  --secondary: #f0f2f7;
+  --secondary-foreground: #141824;
+  --muted: #f0f2f7;
+  --muted-foreground: #687182;
+  --accent: #edf3ff;
+  --accent-foreground: #0062ff;
   --destructive: #ef4444;
   --destructive-foreground: #ffffff;
-  --border: #e7e5e4;
-  --input: #e7e5e4;
-  --ring: #f97316;
-  --chart-1: #f97316;
-  --chart-2: #78716c;
-  --chart-3: #1c1917;
-  --chart-4: #a8a29e;
-  --chart-5: #0ea5e9;
-  --sidebar: #fafaf9;
-  --sidebar-foreground: #78716c;
-  --sidebar-primary: #f97316;
+  --border: #dbe0ea;
+  --input: #dbe0ea;
+  --ring: #0062ff;
+  --chart-1: #0062ff;
+  --chart-2: #ff5a00;
+  --chart-3: #10b981;
+  --chart-4: #8b5cf6;
+  --chart-5: #06b6d4;
+  --sidebar: #ffffff;
+  --sidebar-foreground: #475467;
+  --sidebar-primary: #0062ff;
   --sidebar-primary-foreground: #ffffff;
-  --sidebar-accent: #fff7ed;
-  --sidebar-accent-foreground: #c2410c;
-  --sidebar-border: #e7e5e4;
-  --sidebar-ring: #f97316;
+  --sidebar-accent: #edf3ff;
+  --sidebar-accent-foreground: #0062ff;
+  --sidebar-border: #e2e5ec;
+  --sidebar-ring: #0062ff;
   --radius: 0.375rem;
   --shadow-2xs: 0 1px 2px 0 rgb(0 0 0 / 0.03);
   --shadow-xs: 0 1px 2px 0 rgb(0 0 0 / 0.05);
-  --shadow-sm: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
-  --shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
-  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
-  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px
-    rgb(0 0 0 / 0.1);
-  --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px
-    rgb(0 0 0 / 0.1);
-  --shadow-2xl: 0 25px 50px -12px rgb(0 0 0 / 0.25);
+  --shadow-sm: 0 1px 3px 0 rgb(0 0 0 / 0.08), 0 1px 2px -1px rgb(0 0 0 / 0.06);
+  --shadow: 0 1px 3px 0 rgb(0 0 0 / 0.08), 0 1px 2px -1px rgb(0 0 0 / 0.06);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.08), 0 2px 4px -2px rgb(0 0 0 / 0.06);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.08), 0 4px 6px -4px
+    rgb(0 0 0 / 0.06);
+  --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.08), 0 8px 10px -6px
+    rgb(0 0 0 / 0.06);
+  --shadow-2xl: 0 25px 50px -12px rgb(0 0 0 / 0.18);
   --tile: #e5e5e5;
 }
 
-/* Dark theme - Cursor-inspired deep dark */
+/* Dark theme - Ahrefs deep navy dark */
 .dark {
-  --background: #1f1f1f;
-  --foreground: #f4f1ea;
-  --card: #2c2c2a;
-  --card-foreground: #f4f1ea;
-  --popover: #2c2c2a;
-  --popover-foreground: #f4f1ea;
-  --primary: #f97316;
+  --ahrefs-navy: #141824;
+  --ahrefs-navy-hover: #1e2438;
+  --ahrefs-navy-border: #232a3e;
+  --ahrefs-blue: #0062ff;
+  --ahrefs-blue-hover: #0052d9;
+  --ahrefs-orange: #ff5a00;
+  --ahrefs-orange-hover: #e55000;
+
+  --background: #0d111d;
+  --foreground: #f1f3f7;
+  --card: #151926;
+  --card-foreground: #f1f3f7;
+  --popover: #151926;
+  --popover-foreground: #f1f3f7;
+  --primary: #0062ff;
   --primary-foreground: #ffffff;
-  --secondary: #2c2c2a;
-  --secondary-foreground: #f4f1ea;
-  --muted: #2c2c2a;
-  --muted-foreground: #a6a199;
-  --accent: rgba(255, 255, 255, 0.07);
-  --accent-foreground: #f4f1ea;
+  --secondary: #1c2234;
+  --secondary-foreground: #f1f3f7;
+  --muted: #1c2234;
+  --muted-foreground: #8c96ab;
+  --accent: rgba(0, 98, 255, 0.14);
+  --accent-foreground: #4d94ff;
   --destructive: #ef4444;
   --destructive-foreground: #ffffff;
-  --border: rgba(255, 255, 255, 0.1);
-  --input: rgba(255, 255, 255, 0.1);
-  --ring: #f97316;
-  --chart-1: #f97316;
-  --chart-2: #fbbf24;
-  --chart-3: #ffffff;
-  --chart-4: #71717a;
+  --border: #232a3e;
+  --input: #232a3e;
+  --ring: #0062ff;
+  --chart-1: #0062ff;
+  --chart-2: #ff5a00;
+  --chart-3: #10b981;
+  --chart-4: #a78bfa;
   --chart-5: #38bdf8;
-  --sidebar: #1f1f1f;
-  --sidebar-foreground: #c8c2b8;
-  --sidebar-primary: #f97316;
+  --sidebar: #111522;
+  --sidebar-foreground: #8c96ab;
+  --sidebar-primary: #0062ff;
   --sidebar-primary-foreground: #ffffff;
-  --sidebar-accent: rgba(255, 255, 255, 0.07);
-  --sidebar-accent-foreground: #f4f1ea;
-  --sidebar-border: #3b3935;
-  --sidebar-ring: #f97316;
+  --sidebar-accent: rgba(0, 98, 255, 0.12);
+  --sidebar-accent-foreground: #f1f3f7;
+  --sidebar-border: #1e2538;
+  --sidebar-ring: #0062ff;
   --radius: 0.375rem;
   --shadow-2xs: 0 1px 2px 0 rgb(0 0 0 / 0.2);
   --shadow-xs: 0 1px 2px 0 rgb(0 0 0 / 0.2);
@@ -378,7 +402,7 @@
   --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.3), 0 8px 10px -6px
     rgb(0 0 0 / 0.3);
   --shadow-2xl: 0 25px 50px -12px rgb(0 0 0 / 0.5);
-  --tile: #262626;
+  --tile: #1c2234;
 }
 
 @layer base {
@@ -1591,4 +1615,13 @@ div[class*="border-t"][class*="bg-fd-secondary"]:not(:has(*)):not(
 #nd-docs-layout a[data-active="true"][data-anchor],
 #nd-docs-layout a[aria-current="true"][data-anchor] {
   color: oklch(0.75 0.17 55);
+}
+
+/* Hide Next.js dev indicators and floating badge */
+nextjs-portal,
+[data-nextjs-dev-indicator],
+[data-nextjs-toast],
+div[data-nextjs-dev-tools-button],
+#nextjs-dev-tools {
+  display: none !important;
 }

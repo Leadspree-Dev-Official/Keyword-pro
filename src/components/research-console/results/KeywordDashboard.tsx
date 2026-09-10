@@ -28,6 +28,7 @@ import {
 } from './charts/analytics';
 import { DIFFICULTY_COLORS, intentColor, TREND_COLORS } from './charts/palette';
 import { RankedBars } from './charts/RankedBars';
+import { AhrefsOverviewCards } from './ahrefs-overview-cards';
 
 /**
  * Recharts is ~100KB gzipped and only ever runs in the browser, so the whole
@@ -78,7 +79,7 @@ export function KeywordDashboard({ rows }: { rows: Row[] }) {
 
   return (
     <div className="grid gap-3">
-      <StatRow stats={stats} />
+      <AhrefsOverviewCards stats={stats} rows={rows} />
 
       <div
         className={cn(
@@ -267,25 +268,25 @@ function StatRow({ stats }: { stats: KeywordAnalytics }) {
     <div className="grid grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-6">
       {tiles.map((tile) => (
         <div
-          className="rounded-xl border border-white/8 bg-[#1A1A19] px-3 py-2.5"
+          className="rounded-xl border border-border bg-card px-3.5 py-2.5 shadow-2xs"
           key={tile.label}
         >
-          <div className="flex items-center gap-1.5 text-[#7D7870]">
+          <div className="flex items-center gap-1.5 text-muted-foreground font-semibold">
             <tile.icon className="size-3" />
             <span className="truncate text-[10px] uppercase tracking-[0.1em]">
               {tile.label}
             </span>
           </div>
           <div
-            className="mt-1 truncate font-medium text-lg tabular-nums"
+            className="mt-1 truncate font-bold text-lg tabular-nums text-foreground"
             style={{
-              color: tile.tone ? TREND_COLORS[tile.tone] : '#EDE7DC',
+              color: tile.tone ? TREND_COLORS[tile.tone] : undefined,
             }}
           >
             {tile.value}
           </div>
           {tile.hint ? (
-            <div className="truncate text-[#5E5A54] text-[10px]">{tile.hint}</div>
+            <div className="truncate text-muted-foreground/80 text-[10px]">{tile.hint}</div>
           ) : null}
         </div>
       ))}
@@ -309,20 +310,20 @@ function Panel({
   return (
     <section
       className={cn(
-        'min-w-0 rounded-2xl border border-white/8 bg-[#1A1A19] p-3',
+        'min-w-0 rounded-xl border border-border bg-card p-4 shadow-2xs',
         className,
       )}
     >
-      <header className="mb-2 flex items-start gap-2">
-        <Icon className="mt-0.5 size-3.5 shrink-0 text-[#F2A65A]" />
-        <div className="min-w-0">
-          <h3 className="font-medium text-[#EDE7DC] text-xs">{title}</h3>
-          {subtitle ? (
-            <p className="mt-0.5 text-[#7D7870] text-[10px] leading-4">
-              {subtitle}
-            </p>
-          ) : null}
+      <header className="mb-3 flex items-center justify-between gap-2 border-b border-border/60 pb-2.5">
+        <div className="flex items-center gap-2">
+          <Icon className="size-4 shrink-0 text-[#0062ff]" />
+          <h3 className="font-semibold text-foreground text-xs uppercase tracking-wider">{title}</h3>
         </div>
+        {subtitle ? (
+          <p className="text-muted-foreground text-[11px] leading-tight text-right truncate max-w-[280px]">
+            {subtitle}
+          </p>
+        ) : null}
       </header>
       {children}
     </section>

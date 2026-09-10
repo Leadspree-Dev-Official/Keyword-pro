@@ -102,29 +102,29 @@ function ParameterField({
   };
   if (config.input === 'hidden') return null;
   const commonClass =
-    'h-10 w-full rounded-xl border border-white/10 bg-[#1D1D1C] px-3 text-[#EDE7DC] text-sm outline-none transition placeholder:text-white/28 hover:border-white/16 focus:border-[#F2A65A]/65 disabled:cursor-not-allowed disabled:opacity-55';
+    'h-9 w-full rounded-lg border border-border bg-background px-3 text-foreground text-sm outline-none transition placeholder:text-muted-foreground/60 hover:border-border/80 focus:border-[#0062ff] focus:ring-1 focus:ring-[#0062ff]/30 disabled:cursor-not-allowed disabled:opacity-55';
 
   const Icon = iconFor(field);
 
   return (
     <label
-      className="grid gap-1.5 text-[#9F9A92] text-xs"
+      className="grid gap-1.5 text-muted-foreground text-xs font-medium"
       htmlFor={controlId}
     >
       <span className="inline-flex items-center gap-1.5">
-        <Icon className="size-3 text-[#7D7870]" />
+        <Icon className="size-3 text-muted-foreground" />
         {config.label}
-        {required ? <span className="ml-0.5 text-[#F08A78]">*</span> : null}
+        {required ? <span className="ml-0.5 text-red-500">*</span> : null}
       </span>
       {config.input === 'toggle' ? (
         <button
           aria-checked={toggleValue(value)}
           className={cn(
-            'inline-flex h-10 w-full items-center justify-between gap-3 rounded-xl border px-3 text-left text-sm transition',
-            'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F2A65A]/45',
+            'inline-flex h-9 w-full items-center justify-between gap-3 rounded-lg border px-3 text-left text-sm transition',
+            'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0062ff]/45',
             toggleValue(value)
-              ? 'border-[#F2A65A]/45 bg-[#F2A65A]/10 text-[#EDE7DC]'
-              : 'border-white/10 bg-[#1D1D1C] text-[#9F9A92] hover:border-white/16',
+              ? 'border-blue-500/45 bg-blue-500/10 text-foreground'
+              : 'border-border bg-background text-muted-foreground hover:border-border/80',
             disabled ? 'cursor-not-allowed opacity-55' : null,
           )}
           disabled={disabled}
@@ -137,14 +137,14 @@ function ParameterField({
           <span
             className={cn(
               'relative h-5 w-9 shrink-0 rounded-full transition-colors duration-200',
-              toggleValue(value) ? 'bg-[#F2A65A]' : 'bg-white/14',
+              toggleValue(value) ? 'bg-[#0062ff]' : 'bg-muted',
             )}
           >
             <span
               className={cn(
                 // See the note in EndpointTabs: pin the origin with left-0.5 so
                 // the translate is measured from a known point.
-                'absolute top-0.5 left-0.5 size-4 rounded-full bg-[#171512] transition-transform duration-200 ease-out',
+                'absolute top-0.5 left-0.5 size-4 rounded-full bg-background border border-border/80 shadow-xs transition-transform duration-200 ease-out',
                 toggleValue(value) ? 'translate-x-4' : 'translate-x-0',
               )}
             />
@@ -191,7 +191,7 @@ function ParameterField({
         />
       )}
       {config.helper ? (
-        <span className="text-[#7D7870] text-[11px]">{config.helper}</span>
+        <span className="text-muted-foreground text-[11px]">{config.helper}</span>
       ) : null}
     </label>
   );
@@ -228,7 +228,7 @@ export function ParameterForm({
 
   if (!endpoint) {
     return (
-      <div className="rounded-xl border border-white/8 bg-[#1D1D1C] px-3 py-3 text-[#9F9A92] text-sm">
+      <div className="rounded-xl border border-border bg-muted/20 px-3 py-3 text-muted-foreground text-sm">
         Pick a sub-category above to see endpoints.
       </div>
     );
@@ -256,7 +256,7 @@ export function ParameterForm({
   return (
     <div className="grid gap-3">
       {endpoint.stub ? (
-        <div className="flex items-start gap-2 rounded-xl border border-[#F2A65A]/24 bg-[#F2A65A]/10 px-3 py-2.5 text-[#F2C48A] text-xs leading-5">
+        <div className="flex items-start gap-2 rounded-xl border border-amber-500/30 bg-amber-500/10 px-3 py-2.5 text-amber-600 dark:text-amber-400 text-xs leading-5">
           <AlertCircle className="mt-0.5 size-3.5 shrink-0" />
           <span>
             Account access required. The endpoint is visible so you can prepare
@@ -282,7 +282,7 @@ export function ParameterForm({
       ) : null}
 
       {startsExpanded ? (
-        <p className="text-[#9F9A92] text-xs leading-5">
+        <p className="text-muted-foreground text-xs leading-5">
           This endpoint accepts several ways to identify the target. Fill in at
           least one.
         </p>
@@ -291,7 +291,7 @@ export function ParameterForm({
       {optionalFields.length > 0 ? (
         <div className="grid gap-2">
           <button
-            className="w-fit rounded-lg border border-white/10 px-2.5 py-1.5 text-[#9F9A92] text-xs transition hover:border-white/18 hover:text-[#EDE7DC] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F2A65A]/45"
+            className="w-fit rounded-lg border border-border bg-background px-3 py-1.5 text-muted-foreground text-xs font-medium transition hover:bg-muted hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0062ff]/45 shadow-2xs"
             disabled={disabled}
             onClick={() => setShowOptional((value) => !value)}
             type="button"

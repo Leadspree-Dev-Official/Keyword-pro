@@ -4,13 +4,31 @@ import { fileURLToPath } from 'node:url';
 import postgres, { type Sql } from 'postgres';
 import { computeDatabaseSsl } from '@/lib/runtime-environment';
 
-const MIGRATION_ID = '0001_keyword_pro_compatibility_bridge';
-const MIGRATION_FILE = fileURLToPath(
-  new URL(
-    './migrations/0001_keyword_pro_compatibility_bridge.sql',
-    import.meta.url,
-  ),
-);
+type MigrationDefinition = {
+  id: string;
+  file: string;
+};
+
+const MIGRATIONS: MigrationDefinition[] = [
+  {
+    id: '0001_keyword_pro_compatibility_bridge',
+    file: fileURLToPath(
+      new URL(
+        './migrations/0001_keyword_pro_compatibility_bridge.sql',
+        import.meta.url,
+      ),
+    ),
+  },
+  {
+    id: '0002_add_seranking_credentials',
+    file: fileURLToPath(
+      new URL(
+        './migrations/0002_add_seranking_credentials.sql',
+        import.meta.url,
+      ),
+    ),
+  },
+];
 
 export type DatabaseMigrationResult = {
   applied: boolean;
@@ -35,8 +53,6 @@ function requiredDatabaseUrl(options: MigrationOptions): string {
 export async function migrateDatabase(
   options: MigrationOptions = { env: process.env },
 ): Promise<DatabaseMigrationResult> {
-  const migrationSql = readFileSync(MIGRATION_FILE, 'utf8');
-  const checksum = createHash('sha256').update(migrationSql).digest('hex');
   const ownClient = !options.sql;
   const env = options.env ?? process.env;
   const sql =
@@ -59,28 +75,42 @@ export async function migrateDatabase(
         )
       `);
 
-      const existing = await transaction<
-        Array<{ checksum: string }>
-      >`select checksum from public.keyword_pro_schema_migrations where id = ${MIGRATION_ID}`;
-      if (existing[0] && existing[0].checksum !== checksum) {
-        throw new Error(
-          `Migration ${MIGRATION_ID} was modified after it was applied.`,
-        );
-      }
+      let anyApplied = false;
+      let lastId = MIGRATIONS[MIGRATIONS.length - 1].id;
+      let lastChecksum = '';
 
-      await transaction.unsafe(migrationSql);
+      for (const migration of MIGRATIONS) {
+        const migrationSql = readFileSync(migration.file, 'utf8');
+        const checksum = createHash('sha256').update(migrationSql).digest('hex');
+        lastId = migration.id;
+        lastChecksum = checksum;
 
-      if (!existing[0]) {
+        const existing = await transaction<
+          Array<{ checksum: string }>
+        >`select checksum from public.keyword_pro_schema_migrations where id = ${migration.id}`;
+
+        if (existing[0]) {
+          if (existing[0].checksum !== checksum) {
+            throw new Error(
+              `Migration ${migration.id} was modified after it was applied.`,
+            );
+          }
+          continue;
+        }
+
+        await transaction.unsafe(migrationSql);
+
         await transaction`
           insert into public.keyword_pro_schema_migrations (id, checksum)
-          values (${MIGRATION_ID}, ${checksum})
+          values (${migration.id}, ${checksum})
         `;
+        anyApplied = true;
       }
 
       return {
-        applied: !existing[0],
-        checksum,
-        id: MIGRATION_ID,
+        applied: anyApplied,
+        checksum: lastChecksum,
+        id: lastId,
       };
     });
   } finally {

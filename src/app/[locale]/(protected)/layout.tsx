@@ -43,7 +43,7 @@ export default function DashboardLayout({ children }: PropsWithChildren) {
       >
         <DashboardSidebar variant="sidebar" />
 
-        <SidebarInset className="flex flex-col h-dvh md:h-svh overflow-x-hidden overflow-y-hidden bg-[#1F1F1F]">
+        <SidebarInset className="flex flex-col h-dvh md:h-svh overflow-x-hidden overflow-y-hidden bg-background text-foreground">
           <WorkspaceCenterVars />
           <ProtectedScrollShell railOffsetPx={0}>
             {children}

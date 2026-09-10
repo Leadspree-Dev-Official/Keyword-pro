@@ -142,7 +142,7 @@ export function KeywordResultView({
 
   if (rows.length === 0) {
     return (
-      <div className="rounded-2xl border border-white/8 bg-[#1A1A19] p-4 text-[#9F9A92] text-sm">
+      <div className="rounded-xl border border-border bg-card p-5 text-muted-foreground text-sm shadow-2xs">
         The endpoint answered successfully but returned no rows.
       </div>
     );
@@ -234,7 +234,7 @@ export function KeywordResultView({
         />
       ) : null}
 
-      <div className="min-w-0 rounded-2xl border border-white/8 bg-[#1A1A19]">
+      <div className="min-w-0 rounded-xl border border-border bg-card shadow-2xs overflow-hidden">
       {/* Social rows have their own dashboard above; "Keywords 12, volume 0"
           would be nonsense over a list of posts. */}
       {showDashboard || String(meta?.kind ?? '').startsWith('social') ? null : (
@@ -259,9 +259,9 @@ export function KeywordResultView({
       <div className="overflow-x-auto">
         <table className="w-full border-collapse text-left text-xs">
           <thead>
-            <tr className="border-white/8 border-b bg-white/[0.02]">
+            <tr className="border-border border-b bg-muted/60 text-muted-foreground">
               <th
-                className="sticky left-0 z-20 w-8 bg-[#1D1D1C] px-2 py-2"
+                className="sticky left-0 z-20 w-8 bg-muted/90 px-2 py-2.5 text-muted-foreground border-r border-border/40"
                 scope="col"
               >
                 <span className="sr-only">Expand row</span>
@@ -287,21 +287,21 @@ export function KeywordResultView({
                 <Fragment key={`kw-${absoluteIndex}`}>
                   <tr
                     className={cn(
-                      'border-white/6 border-b transition-colors',
-                      isOpen ? 'bg-white/[0.045]' : 'hover:bg-white/[0.025]',
+                      'border-border/50 border-b transition-colors',
+                      isOpen ? 'bg-blue-500/[0.06]' : 'hover:bg-muted/40',
                     )}
                     key={`row-${absoluteIndex}`}
                   >
                     <td
                       className={cn(
-                        'sticky left-0 z-10 px-2 py-2 align-middle',
-                        isOpen ? 'bg-[#201F1E]' : 'bg-[#1A1A19]',
+                        'sticky left-0 z-10 px-2 py-2 align-middle border-r border-border/30',
+                        isOpen ? 'bg-blue-500/[0.06]' : 'bg-card',
                       )}
                     >
                       <button
                         aria-expanded={isOpen}
                         aria-label={isOpen ? 'Hide all fields' : 'Show all fields'}
-                        className="inline-flex size-5 items-center justify-center rounded-md text-[#7D7870] transition hover:bg-white/10 hover:text-[#EDE7DC] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F2A65A]/45"
+                        className="inline-flex size-5 items-center justify-center rounded-md text-muted-foreground transition hover:bg-muted hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0062ff]/45"
                         onClick={() => setExpanded(isOpen ? null : absoluteIndex)}
                         type="button"
                       >
@@ -319,12 +319,12 @@ export function KeywordResultView({
                       return (
                         <td
                           className={cn(
-                            'px-3 py-2 align-middle',
+                            'px-3 py-2.5 align-middle',
                             column.numeric && 'text-right',
                             sticky &&
                               cn(
-                                'sticky left-8 z-10',
-                                isOpen ? 'bg-[#201F1E]' : 'bg-[#1A1A19]',
+                                'sticky left-8 z-10 border-r border-border/30',
+                                isOpen ? 'bg-blue-500/[0.06]' : 'bg-card',
                               ),
                           )}
                           key={column.key}
@@ -337,7 +337,7 @@ export function KeywordResultView({
                   {isOpen ? (
                     <tr key={`detail-${absoluteIndex}`}>
                       <td
-                        className="border-white/6 border-b bg-[#151514] px-4 py-3"
+                        className="border-border/60 border-b bg-muted/20 px-4 py-3"
                         colSpan={columns.length + 1}
                       >
                         <RowDetail row={row} />
@@ -380,18 +380,18 @@ function SortableHeader({
   return (
     <th
       className={cn(
-        'px-3 py-2 font-medium',
+        'px-3 py-2.5 font-semibold text-[11px]',
         column.width,
-        sticky && 'sticky left-8 z-20 bg-[#1D1D1C]',
+        sticky && 'sticky left-8 z-20 bg-muted/80 backdrop-blur-xs border-r border-border/40',
       )}
       scope="col"
       title={column.title}
     >
       <button
         className={cn(
-          'inline-flex w-full items-center gap-1 text-[10px] uppercase tracking-[0.1em] transition',
+          'inline-flex w-full items-center gap-1 text-[11px] uppercase tracking-wider transition font-semibold',
           column.numeric && 'justify-end',
-          active ? 'text-[#F2A65A]' : 'text-[#8E8880] hover:text-[#EDE7DC]',
+          active ? 'text-[#0062ff]' : 'text-muted-foreground hover:text-foreground',
         )}
         onClick={() => onSort(column.key)}
         type="button"
@@ -399,9 +399,9 @@ function SortableHeader({
         <span className="truncate">{column.label}</span>
         {active ? (
           sort.direction === 'asc' ? (
-            <ChevronUp className="size-3 shrink-0" />
+            <ChevronUp className="size-3 shrink-0 text-[#0062ff]" />
           ) : (
-            <ChevronDown className="size-3 shrink-0" />
+            <ChevronDown className="size-3 shrink-0 text-[#0062ff]" />
           )
         ) : null}
       </button>
@@ -434,10 +434,10 @@ function RowDetail({ row }: { row: Row }) {
   return (
     <div className="grid gap-3">
       {history.length >= 2 ? (
-        <div className="flex items-center gap-3 rounded-xl border border-white/8 bg-[#1A1A19] px-3 py-2">
+        <div className="flex items-center gap-3 rounded-xl border border-border bg-card px-3.5 py-2.5 shadow-2xs">
           <Sparkline height={34} values={history} width={220} />
-          <div className="text-[11px] text-[#9F9A92] leading-4">
-            <div className="text-[#EDE7DC]">
+          <div className="text-[11px] text-muted-foreground leading-4">
+            <div className="text-foreground font-semibold">
               {history.length} months of history
             </div>
             <div>
@@ -451,11 +451,11 @@ function RowDetail({ row }: { row: Row }) {
       <div className="grid gap-x-6 gap-y-1 sm:grid-cols-2 lg:grid-cols-3">
         {scalars.map(([key, value]) => (
           <div
-            className="flex items-baseline justify-between gap-3 border-white/5 border-b py-1"
+            className="flex items-baseline justify-between gap-3 border-border/40 border-b py-1"
             key={key}
           >
-            <span className="text-[#7D7870] text-[11px]">{labelize(key)}</span>
-            <span className="truncate text-[#D7D1C8] text-[11px]">
+            <span className="text-muted-foreground text-[11px] font-medium">{labelize(key)}</span>
+            <span className="truncate text-foreground text-[11px] font-medium">
               {genericCell(value)}
             </span>
           </div>
@@ -466,13 +466,13 @@ function RowDetail({ row }: { row: Row }) {
         <div className="grid gap-1.5">
           {structures.map(([key, value]) => (
             <details className="group" key={key}>
-              <summary className="cursor-pointer text-[#8E8880] text-[11px] transition hover:text-[#EDE7DC]">
+              <summary className="cursor-pointer text-muted-foreground text-[11px] font-medium transition hover:text-foreground">
                 {labelize(key)}
-                <span className="ml-1.5 text-[#5E5A54]">
+                <span className="ml-1.5 text-muted-foreground/70">
                   {Array.isArray(value) ? `${value.length} items` : 'object'}
                 </span>
               </summary>
-              <pre className="mt-1 max-h-48 overflow-auto whitespace-pre-wrap break-words rounded-lg bg-[#111110] p-2 text-[#9F9A92] text-[10px] leading-4">
+              <pre className="mt-1 max-h-48 overflow-auto whitespace-pre-wrap break-words rounded-lg border border-border bg-background p-2 text-foreground font-mono text-[10px] leading-4">
                 {JSON.stringify(value, null, 2)}
               </pre>
             </details>
@@ -482,10 +482,10 @@ function RowDetail({ row }: { row: Row }) {
 
       {full ? (
         <details>
-          <summary className="cursor-pointer text-[#8E8880] text-[11px] transition hover:text-[#EDE7DC]">
+          <summary className="cursor-pointer text-muted-foreground text-[11px] font-medium transition hover:text-foreground">
             Complete provider record for this keyword
           </summary>
-          <pre className="mt-1 max-h-72 overflow-auto whitespace-pre-wrap break-words rounded-lg bg-[#111110] p-2 text-[#9F9A92] text-[10px] leading-4">
+          <pre className="mt-1 max-h-72 overflow-auto whitespace-pre-wrap break-words rounded-lg border border-border bg-background p-2 text-foreground font-mono text-[10px] leading-4">
             {JSON.stringify(full, null, 2)}
           </pre>
         </details>
@@ -564,17 +564,17 @@ function SummaryTiles({
   }
 
   return (
-    <div className="grid grid-cols-2 gap-px border-white/8 border-b bg-white/[0.06] sm:grid-cols-3 lg:grid-cols-6">
+    <div className="grid grid-cols-2 gap-px border-border/60 border-b bg-border/40 sm:grid-cols-3 lg:grid-cols-6">
       {tiles.map((tile) => (
-        <div className="bg-[#1A1A19] px-3 py-2.5" key={tile.label}>
-          <div className="text-[#7D7870] text-[10px] uppercase tracking-[0.1em]">
+        <div className="bg-card px-3 py-2.5" key={tile.label}>
+          <div className="text-muted-foreground text-[10px] uppercase font-semibold tracking-wider">
             {tile.label}
           </div>
-          <div className="mt-0.5 truncate font-medium text-[#EDE7DC] text-sm capitalize">
+          <div className="mt-0.5 truncate font-semibold text-foreground text-sm capitalize">
             {tile.value}
           </div>
           {tile.hint ? (
-            <div className="truncate text-[#5E5A54] text-[10px]">{tile.hint}</div>
+            <div className="truncate text-muted-foreground/80 text-[10px]">{tile.hint}</div>
           ) : null}
         </div>
       ))}
@@ -597,7 +597,7 @@ function Pager({
   const to = Math.min(total, (page + 1) * PAGE_SIZE);
 
   return (
-    <div className="flex items-center justify-between gap-3 border-white/8 border-t px-3 py-2 text-[#7D7870] text-[11px]">
+    <div className="flex items-center justify-between gap-3 border-border/60 border-t bg-muted/20 px-3 py-2 text-muted-foreground text-xs font-medium">
       <span className="tabular-nums">
         {from.toLocaleString('en-US')}–{to.toLocaleString('en-US')} of{' '}
         {total.toLocaleString('en-US')}
@@ -606,19 +606,19 @@ function Pager({
         <div className="flex items-center gap-1">
           <button
             aria-label="Previous page"
-            className="inline-flex size-6 items-center justify-center rounded-md transition hover:bg-white/10 hover:text-[#EDE7DC] disabled:opacity-35 disabled:hover:bg-transparent"
+            className="inline-flex size-6 items-center justify-center rounded-md border border-border/60 bg-background text-muted-foreground transition hover:bg-muted hover:text-foreground disabled:opacity-35 disabled:hover:bg-background shadow-2xs"
             disabled={page === 0}
             onClick={() => onChange(page - 1)}
             type="button"
           >
             <ChevronLeft className="size-3.5" />
           </button>
-          <span className="tabular-nums px-1">
+          <span className="tabular-nums px-1 font-mono text-[11px]">
             {page + 1} / {pageCount}
           </span>
           <button
             aria-label="Next page"
-            className="inline-flex size-6 items-center justify-center rounded-md transition hover:bg-white/10 hover:text-[#EDE7DC] disabled:opacity-35 disabled:hover:bg-transparent"
+            className="inline-flex size-6 items-center justify-center rounded-md border border-border/60 bg-background text-muted-foreground transition hover:bg-muted hover:text-foreground disabled:opacity-35 disabled:hover:bg-background shadow-2xs"
             disabled={page >= pageCount - 1}
             onClick={() => onChange(page + 1)}
             type="button"

@@ -50,31 +50,31 @@ export function ReportActions({
   }
 
   return (
-    <header className="flex flex-wrap items-center gap-x-3 gap-y-2 rounded-2xl border border-white/8 bg-[#1A1A19] px-3 py-2.5">
+    <header className="flex flex-wrap items-center gap-x-3 gap-y-2 rounded-xl border border-border bg-card px-3.5 py-2.5 shadow-2xs">
       <div className="flex min-w-[260px] flex-1 items-center gap-2">
-        <Search className="size-3.5 shrink-0 text-[#F2A65A]" />
+        <Search className="size-3.5 shrink-0 text-[#0062ff]" />
         <div className="min-w-0">
-          <span className="block truncate font-medium text-[#EDE7DC] text-sm" title={title}>
+          <span className="block truncate font-bold text-foreground text-sm" title={title}>
             {title}
           </span>
-          {subtitle ? <div className="truncate text-[#7D7870] text-[11px]">{subtitle}</div> : null}
+          {subtitle ? <div className="truncate text-muted-foreground text-[11px]">{subtitle}</div> : null}
         </div>
       </div>
 
-      <div className="flex flex-wrap items-center gap-2 text-[#7D7870] text-[10px] uppercase tracking-[0.1em]">
+      <div className="flex flex-wrap items-center gap-2 text-muted-foreground text-[10px] uppercase font-semibold tracking-wider">
         {sourcesTotal !== null && sourcesTotal > 0 ? (
           <span
-            className="rounded-full border px-2 py-0.5 tabular-nums normal-case tracking-normal"
+            className="rounded-full border px-2 py-0.5 tabular-nums normal-case tracking-normal font-medium"
             style={{
-              borderColor: allOk ? 'rgba(111,191,139,0.35)' : 'rgba(232,182,115,0.35)',
-              color: allOk ? '#6FBF8B' : '#E8B673',
+              borderColor: allOk ? 'rgba(16, 185, 129, 0.35)' : 'rgba(245, 158, 11, 0.35)',
+              color: allOk ? '#10b981' : '#f59e0b',
             }}
           >
             {sourcesOk ?? 0} of {sourcesTotal} endpoints
           </span>
         ) : null}
         {cost !== null ? (
-          <span className="rounded-full border border-white/10 px-1.5 py-0.5 tabular-nums normal-case tracking-normal">
+          <span className="rounded-full border border-border bg-muted/40 px-2 py-0.5 tabular-nums normal-case tracking-normal font-mono font-medium text-foreground">
             {cost < 0.01 ? '<$0.01' : `$${cost.toFixed(3)}`}
           </span>
         ) : null}
@@ -121,9 +121,8 @@ function ExportButton({
   return (
     <button
       className={cn(
-        'inline-flex h-7 items-center gap-1.5 rounded-lg border px-2 text-[11px] transition',
-        'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F2A65A]/45',
-        'border-white/10 text-[#9F9A92] hover:border-white/20 hover:bg-white/[0.05] hover:text-[#EDE7DC]',
+        'inline-flex h-7 items-center gap-1.5 rounded-md border border-border/80 bg-background px-2.5 text-xs font-medium text-muted-foreground transition shadow-2xs',
+        'hover:bg-muted hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0062ff]/45',
       )}
       disabled={busy}
       onClick={onClick}

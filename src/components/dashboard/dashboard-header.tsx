@@ -8,6 +8,9 @@ import {
 } from '@/components/ui/breadcrumb';
 import { Separator } from '@/components/ui/separator';
 import { SidebarTrigger } from '@/components/ui/sidebar';
+import { LocaleLink, useLocalePathname } from '@/i18n/navigation';
+import { Routes } from '@/routes';
+import { Globe, KeyRound, Radio, Settings, Sliders } from 'lucide-react';
 import { type ReactNode, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { ModeSwitcher } from '../layout/mode-switcher';
 
@@ -369,6 +372,11 @@ export function DashboardHeader({
   actions,
   replayKey,
 }: DashboardHeaderProps) {
+  const pathname = useLocalePathname() ?? '';
+  const isKeywordsActive = pathname.startsWith('/keyword-pro') || pathname === '/';
+  const isConnectionsActive = pathname.startsWith('/settings/connections');
+  const isSettingsActive = pathname.startsWith('/settings/profile');
+
   const containerRef = useRef<HTMLElement | null>(null);
   const prefixRef = useRef<HTMLLIElement | null>(null);
   const titleRef = useRef<HTMLSpanElement | null>(null);
@@ -424,20 +432,53 @@ export function DashboardHeader({
   }, [checkFit]);
 
   return (
-    <header className="sticky top-0 z-40 flex h-(--header-height) shrink-0 items-center gap-2 bg-[#1F1F1F] transition-[width,height] ease-linear after:pointer-events-none after:absolute after:bottom-0 after:left-0 after:z-50 after:h-px after:w-[calc(100%+var(--workspace-native-scrollbar-clip,0px))] after:bg-[#3B3935] after:content-[''] group-has-data-[collapsible=icon]/sidebar-wrapper:h-(--header-height)">
-      <div className="flex w-full items-center gap-1 pl-4 pr-2 lg:gap-2 lg:pl-6 lg:pr-2">
-        <SidebarTrigger className="-ml-1 cursor-pointer" />
+    <header className="sticky top-0 z-40 flex h-(--header-height) shrink-0 items-center bg-[#141824] text-white border-b border-[#232a3e] shadow-xs transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-(--header-height)">
+      <div className="flex w-full items-center gap-2 pl-3 pr-4 lg:gap-3 lg:pl-4">
+        <SidebarTrigger className="-ml-1 text-slate-300 hover:text-white hover:bg-white/10 cursor-pointer" />
         <Separator
           orientation="vertical"
-          className="mx-2 data-[orientation=vertical]:h-4"
+          className="mx-1 bg-[#2b354f] data-[orientation=vertical]:h-4"
         />
 
-        <Breadcrumb ref={containerRef} className="min-w-0 flex-1">
-          <BreadcrumbList className="min-w-0 flex-nowrap overflow-hidden whitespace-nowrap">
+        {/* Ahrefs Signature Global Tool Tabs */}
+        <nav className="flex items-center gap-1 shrink-0" aria-label="Global navigation">
+          <LocaleLink
+            href={Routes.KeywordPro}
+            className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs sm:text-sm font-medium transition-colors ${
+              isKeywordsActive
+                ? 'bg-[#1e263d] text-white shadow-xs border border-blue-500/30'
+                : 'text-slate-300 hover:text-white hover:bg-white/5'
+            }`}
+          >
+            <span className="size-2 rounded-full bg-[#0062ff]" />
+            Keywords Explorer
+          </LocaleLink>
+          <LocaleLink
+            href={Routes.SettingsConnections}
+            className={`hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs sm:text-sm font-medium transition-colors ${
+              isConnectionsActive
+                ? 'bg-[#1e263d] text-white shadow-xs border border-blue-500/30'
+                : 'text-slate-300 hover:text-white hover:bg-white/5'
+            }`}
+          >
+            Site Explorer
+          </LocaleLink>
+          <span className="hidden md:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs sm:text-sm font-medium text-slate-400 opacity-70 cursor-default">
+            SERP Overview
+          </span>
+        </nav>
+
+        <Separator
+          orientation="vertical"
+          className="hidden md:block mx-1 bg-[#2b354f] data-[orientation=vertical]:h-4"
+        />
+
+        <Breadcrumb ref={containerRef} className="min-w-0 flex-1 hidden md:block">
+          <BreadcrumbList className="min-w-0 flex-nowrap overflow-hidden whitespace-nowrap text-slate-400">
             <BreadcrumbItem className="min-w-0">
-              <BreadcrumbPage ref={titleRef} className="block min-w-0 max-w-full">
+              <BreadcrumbPage ref={titleRef} className="block min-w-0 max-w-full text-slate-300">
                 <BreadcrumbMorph
-                  text={breadcrumbs.map((b) => b.label).join('  \u203A  ')}
+                  text={breadcrumbs.map((b) => b.label).join('  ›  ')}
                   replayKey={replayKey}
                 />
               </BreadcrumbPage>
@@ -445,11 +486,25 @@ export function DashboardHeader({
           </BreadcrumbList>
         </Breadcrumb>
 
-        {/* dashboard header actions on the right side */}
-        <div className="ml-auto flex items-center gap-2 pl-4">
+        {/* Dashboard header actions & status on the right side */}
+        <div className="ml-auto flex items-center gap-2.5">
           {actions}
 
-          <ModeSwitcher />
+          <div className="text-slate-200">
+            <ModeSwitcher />
+          </div>
+
+          <LocaleLink
+            href={Routes.SettingsProfile}
+            title="Settings"
+            className={`p-1.5 rounded-md transition-colors ${
+              isSettingsActive
+                ? 'bg-white/10 text-white'
+                : 'text-slate-300 hover:text-white hover:bg-white/10'
+            }`}
+          >
+            <Settings className="size-4" />
+          </LocaleLink>
         </div>
       </div>
     </header>

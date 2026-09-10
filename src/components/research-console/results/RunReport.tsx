@@ -51,93 +51,93 @@ export function RunReport({
   }
 
   return (
-    <section className="min-w-0 rounded-2xl border border-white/8 bg-[#1A1A19]">
+    <section className="min-w-0 rounded-xl border border-border bg-card shadow-2xs overflow-hidden">
       {progress ? (
         // A thin bar that fills as calls finish, so the receipt reads as a
         // progress line while the run is streaming.
-        <div className="h-0.5 w-full overflow-hidden rounded-t-2xl bg-white/[0.05]">
+        <div className="h-0.5 w-full overflow-hidden bg-muted">
           <div
-            className="h-full bg-[#F2A65A] transition-[width] duration-500"
+            className="h-full bg-[#0062ff] transition-[width] duration-500"
             style={{ width: `${progress.total > 0 ? (progress.done / progress.total) * 100 : 0}%` }}
           />
         </div>
       ) : null}
       <button
         aria-expanded={open}
-        className="flex w-full items-center gap-2 px-3 py-2.5 text-left transition hover:bg-white/[0.02]"
+        className="flex w-full items-center gap-2 px-3 py-2.5 text-left transition hover:bg-muted/40"
         onClick={() => setOpen((value) => !value)}
         type="button"
       >
         {progress ? (
-          <Loader2 className="size-3.5 shrink-0 animate-spin text-[#F2A65A]" />
+          <Loader2 className="size-3.5 shrink-0 animate-spin text-[#0062ff]" />
         ) : (
-          <Receipt className="size-3.5 shrink-0 text-[#F2A65A]" />
+          <Receipt className="size-3.5 shrink-0 text-[#0062ff]" />
         )}
-        <span className="font-medium text-[#EDE7DC] text-xs">
+        <span className="font-semibold text-foreground text-xs">
           {progress
             ? `Running ${progress.done} of ${progress.total} endpoints`
             : `${withData} with data${empty.length > 0 ? `, ${empty.length} empty` : ''}${failed.length > 0 ? `, ${failed.length} failed` : ''}`}
         </span>
         {progress?.current ? (
-          <span className="truncate text-[#9F9A92] text-[11px]">· {progress.current}</span>
+          <span className="truncate text-muted-foreground text-[11px]">· {progress.current}</span>
         ) : null}
         {failed.length > 0 ? (
-          <span className="inline-flex items-center gap-1 rounded-full border border-[#E08A7A]/35 bg-[#E08A7A]/10 px-2 py-0.5 text-[#E08A7A] text-[10px]">
+          <span className="inline-flex items-center gap-1 rounded-full border border-red-500/35 bg-red-500/10 px-2 py-0.5 text-red-500 text-[10px] font-medium">
             <AlertTriangle className="size-2.5" />
             {failed.length} failed
           </span>
         ) : null}
         {empty.length > 0 ? (
-          <span className="inline-flex items-center gap-1 rounded-full border border-white/10 bg-white/[0.03] px-2 py-0.5 text-[#9F9A92] text-[10px]">
+          <span className="inline-flex items-center gap-1 rounded-full border border-border bg-muted/40 px-2 py-0.5 text-muted-foreground text-[10px] font-medium">
             <Minus className="size-2.5" />
             {empty.length} empty
           </span>
         ) : null}
-        <span className="ml-auto shrink-0 tabular-nums text-[#9F9A92] text-[11px]">
+        <span className="ml-auto shrink-0 tabular-nums font-mono text-muted-foreground text-[11px]">
           {totalCost !== null
             ? totalCost < 0.01
               ? '<$0.01'
               : `$${totalCost.toFixed(3)}`
             : ''}
         </span>
-        <span className="shrink-0 text-[#5E5A54] text-[10px]">
+        <span className="shrink-0 text-muted-foreground text-[10px] font-medium">
           {open ? 'Hide' : 'Details'}
         </span>
       </button>
 
       {open ? (
-        <div className="grid gap-3 border-white/8 border-t p-3">
+        <div className="grid gap-3 border-border/60 border-t p-3 bg-muted/10">
           {[...grouped.entries()].map(([group, entries]) => (
             <div className="grid gap-1" key={group}>
-              <div className="text-[#7D7870] text-[10px] uppercase tracking-[0.1em]">
+              <div className="text-muted-foreground text-[10px] uppercase font-semibold tracking-wider">
                 {GROUP_LABELS[group] ?? group}
               </div>
               {entries.map((source) => (
                 <div
-                  className="flex items-baseline gap-2 border-white/5 border-b py-1 text-[11px] last:border-0"
+                  className="flex items-baseline gap-2 border-border/30 border-b py-1.5 text-[11px] last:border-0"
                   key={source.type}
                 >
                   {!source.ok ? (
-                    <AlertTriangle className="size-3 shrink-0 text-[#E08A7A]" />
+                    <AlertTriangle className="size-3 shrink-0 text-red-500" />
                   ) : returnedCount(source) === 0 ? (
-                    <Minus className="size-3 shrink-0 text-[#7D7870]" />
+                    <Minus className="size-3 shrink-0 text-muted-foreground" />
                   ) : (
-                    <Check className="size-3 shrink-0 text-[#6FBF8B]" />
+                    <Check className="size-3 shrink-0 text-emerald-500" />
                   )}
-                  <span className="min-w-0 flex-1 truncate text-[#D7D1C8]">
+                  <span className="min-w-0 flex-1 truncate text-foreground font-medium">
                     {source.label}
                     {source.error ? (
-                      <span className="ml-1.5 text-[#E08A7A]">
+                      <span className="ml-1.5 text-red-500 font-normal">
                         {source.error}
                       </span>
                     ) : null}
                   </span>
                   <span
                     className={cn(
-                      'shrink-0 tabular-nums text-[10px]',
+                      'shrink-0 tabular-nums font-mono text-[10px]',
                       source.contributed > 0
-                        ? 'text-[#9F9A92]'
-                        : 'text-[#5E5A54]',
+                        ? 'text-foreground'
+                        : 'text-muted-foreground/70',
                     )}
                     title="Rows this endpoint added or filled in"
                   >
@@ -147,7 +147,7 @@ export function RunReport({
                         ? `+${source.contributed}`
                         : 'no new fields'}
                   </span>
-                  <span className="w-14 shrink-0 text-right tabular-nums text-[#7D7870] text-[10px]">
+                  <span className="w-14 shrink-0 text-right tabular-nums font-mono text-muted-foreground text-[10px]">
                     {source.cost !== null ? `$${source.cost.toFixed(4)}` : ''}
                   </span>
                 </div>

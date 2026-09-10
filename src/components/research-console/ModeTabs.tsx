@@ -32,7 +32,7 @@ export function ModeTabs({
   return (
     <div
       aria-label="Keyword mode"
-      className="inline-flex rounded-2xl border border-white/10 bg-[#1D1D1C] p-1"
+      className="inline-flex rounded-lg border border-border bg-muted/60 p-1"
       role="tablist"
     >
       {options.map((option, index) => {
@@ -49,12 +49,12 @@ export function ModeTabs({
               }
               aria-selected={active}
               className={cn(
-                'group inline-flex h-9 items-center justify-center overflow-hidden rounded-xl text-sm transition-[background-color,color,box-shadow] duration-200 ease-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F2A65A]/55',
+                'group inline-flex h-8 items-center justify-center overflow-hidden rounded-md text-xs font-medium transition-all duration-200 ease-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0062ff]/55',
                 active
-                  ? 'gap-1.5 bg-[#EDE7DC] px-3 text-[#171512]'
+                  ? 'gap-1.5 bg-background shadow-xs px-3 text-foreground font-semibold border border-border/80'
                   : locked
-                    ? 'w-9 cursor-not-allowed px-0 text-white/28'
-                    : 'w-9 px-0 text-white/54 hover:bg-white/[0.055] hover:text-white/86',
+                    ? 'w-8 cursor-not-allowed px-0 text-muted-foreground/30'
+                    : 'w-8 px-0 text-muted-foreground hover:bg-background/60 hover:text-foreground',
               )}
               onClick={() => {
                 if (!locked) onChange(option.value);

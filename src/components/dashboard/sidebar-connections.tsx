@@ -45,12 +45,12 @@ export function SidebarConnections({ onNavigate }: SidebarConnectionsProps) {
         <SidebarMenuButton
           asChild
           tooltip="Connections"
-          className="cursor-pointer rounded-xl hover:bg-[#2A2A2A] hover:text-[#E2E2E5] active:bg-[#2A2A2A] active:text-[#E2E2E5] focus-visible:ring-0 focus-visible:ring-offset-0"
+          className="cursor-pointer rounded-lg hover:bg-muted hover:text-foreground active:bg-muted active:text-foreground focus-visible:ring-1 focus-visible:ring-[#0062ff]"
         >
           <LocaleLink href={Routes.SettingsConnections} onClick={handleClick}>
-            <Plug className="size-4 shrink-0" />
+            <Plug className="size-4 shrink-0 text-muted-foreground" />
             {!isCollapsed && (
-              <span className="truncate text-[#E2E2E5]">Connections</span>
+              <span className="truncate text-foreground font-medium text-xs">Connections</span>
             )}
           </LocaleLink>
         </SidebarMenuButton>

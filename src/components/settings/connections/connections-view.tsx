@@ -20,11 +20,12 @@ import {
 import { useCallback, useEffect, useState } from 'react';
 import { toast } from 'sonner';
 
-type ProviderId = 'dataforseo';
+type ProviderId = 'dataforseo' | 'seranking';
 
 type FieldId =
   | 'dataforseoLogin'
-  | 'dataforseoPassword';
+  | 'dataforseoPassword'
+  | 'serankingApiKey';
 
 type ProviderLink = {
   label: string;
@@ -75,10 +76,25 @@ const PROVIDERS: ProviderDef[] = [
       { label: 'Pricing', url: 'https://dataforseo.com/pricing', icon: 'pricing' },
     ],
   },
+  {
+    id: 'seranking',
+    title: 'SE Ranking',
+    powers: 'Keyword research, ranking data, search volume, and competitor analysis.',
+    accent: '#3D72ED',
+    fields: [
+      { id: 'serankingApiKey', label: 'API Key', placeholder: 'API token from SE Ranking' },
+    ],
+    links: [
+      { label: 'API access', url: 'https://online.seranking.com/', icon: 'keys' },
+      { label: 'Docs', url: 'https://seranking.com/api.html', icon: 'docs' },
+      { label: 'Pricing', url: 'https://seranking.com/pricing.html', icon: 'pricing' },
+    ],
+  },
 ];
 
 const PROVIDER_FIELDS: Record<ProviderId, FieldId[]> = {
   dataforseo: ['dataforseoLogin', 'dataforseoPassword'],
+  seranking: ['serankingApiKey'],
 };
 
 const LINK_ICONS = {
@@ -224,7 +240,7 @@ export function ConnectionsView() {
           <section
             aria-label={provider.title}
             className={cn(
-              'group/provider relative min-w-0 overflow-hidden rounded-2xl border border-white/8 bg-[#1A1A19] transition',
+              'group/provider relative min-w-0 overflow-hidden rounded-xl border border-border bg-card shadow-2xs transition',
               locked && 'select-none',
             )}
             key={provider.id}
@@ -241,7 +257,7 @@ export function ConnectionsView() {
               <header className="grid gap-2">
                 <div className="min-w-0">
                   <div className="flex flex-wrap items-center gap-2">
-                    <h2 className="font-medium text-[#EDE7DC] text-sm">{provider.title}</h2>
+                    <h2 className="font-bold text-foreground text-sm">{provider.title}</h2>
                     {locked ? (
                       <Pill tone="muted">{locked}</Pill>
                     ) : providerConfigured ? (
@@ -256,7 +272,7 @@ export function ConnectionsView() {
                       </Pill>
                     )}
                   </div>
-                  <p className="mt-1 text-[#9F9A92] text-xs leading-5">{provider.powers}</p>
+                  <p className="mt-1 text-muted-foreground text-xs leading-5">{provider.powers}</p>
                 </div>
 
                 {/* Where the key comes from, what it does, what it costs: one
@@ -267,7 +283,7 @@ export function ConnectionsView() {
                     return (
                       <li key={link.url}>
                         <a
-                          className="inline-flex items-center gap-1 rounded-lg border border-white/8 bg-white/[0.03] px-2 py-1 text-[#9F9A92] text-[11px] transition hover:border-white/20 hover:text-[#EDE7DC]"
+                          className="inline-flex items-center gap-1 rounded-lg border border-border bg-muted/40 px-2 py-1 text-muted-foreground text-[11px] transition hover:border-border/80 hover:text-foreground"
                           href={link.url}
                           rel="noopener noreferrer"
                           target="_blank"
@@ -290,12 +306,12 @@ export function ConnectionsView() {
               >
                 {provider.fields.map((field) => (
                   <label className="grid gap-1" key={field.id}>
-                    <span className="text-[#7D7870] text-[10px] uppercase tracking-[0.1em]">
+                    <span className="text-muted-foreground text-[10px] uppercase tracking-wider font-semibold">
                       {field.label}
                     </span>
                     <input
                       autoComplete="off"
-                      className="h-9 w-full rounded-lg border border-white/10 bg-[#151514] px-3 text-[#EDE7DC] text-sm outline-none transition placeholder:text-[#5E5A54] focus-visible:border-[#F2A65A]/60 focus-visible:ring-2 focus-visible:ring-[#F2A65A]/25 disabled:cursor-not-allowed"
+                      className="h-9 w-full rounded-lg border border-border bg-background px-3 text-foreground text-sm outline-none transition placeholder:text-muted-foreground/60 focus-visible:border-[#0062ff] focus-visible:ring-1 focus-visible:ring-[#0062ff]/30 disabled:cursor-not-allowed"
                       disabled={busy || locked !== null}
                       onChange={(event) =>
                         setValues((current) => ({
@@ -315,7 +331,7 @@ export function ConnectionsView() {
 
               <footer className="mt-4 flex flex-wrap items-center gap-2">
                 <button
-                  className="inline-flex h-8 items-center gap-1.5 rounded-lg border border-white/10 bg-white/[0.03] px-3 text-[#D7D1C8] text-xs transition hover:border-white/20 hover:bg-white/[0.06] disabled:cursor-not-allowed disabled:opacity-50"
+                  className="inline-flex h-8 items-center gap-1.5 rounded-lg border border-border bg-background px-3 text-muted-foreground text-xs font-medium transition hover:border-border/80 hover:bg-muted hover:text-foreground shadow-2xs disabled:cursor-not-allowed disabled:opacity-50"
                   disabled={testing || locked !== null}
                   onClick={() => handleTest(provider)}
                   type="button"
@@ -327,8 +343,8 @@ export function ConnectionsView() {
                 {outcome ? (
                   <span
                     className={cn(
-                      'inline-flex min-w-0 items-center gap-1.5 text-xs',
-                      outcome.ok ? 'text-[#6FBF8B]' : 'text-[#E08A7A]',
+                      'inline-flex min-w-0 items-center gap-1.5 text-xs font-medium',
+                      outcome.ok ? 'text-emerald-600 dark:text-emerald-400' : 'text-red-500',
                     )}
                     role="status"
                   >
@@ -344,7 +360,7 @@ export function ConnectionsView() {
                 <div className="ml-auto flex items-center gap-2">
                   {providerConfigured && !locked ? (
                     <button
-                      className="inline-flex h-8 items-center gap-1.5 rounded-lg px-2.5 text-[#7D7870] text-xs transition hover:bg-white/[0.04] hover:text-[#E08A7A] disabled:opacity-50"
+                      className="inline-flex h-8 items-center gap-1.5 rounded-lg px-2.5 text-muted-foreground text-xs font-medium transition hover:bg-red-500/10 hover:text-red-500 disabled:opacity-50"
                       disabled={busy}
                       onClick={() => handleClear(provider)}
                       type="button"
@@ -354,7 +370,7 @@ export function ConnectionsView() {
                     </button>
                   ) : null}
                   <button
-                    className="inline-flex h-8 items-center gap-1.5 rounded-lg bg-[#F2A65A] px-3.5 font-medium text-[#171512] text-xs transition hover:bg-[#F5B673] disabled:cursor-not-allowed disabled:opacity-40"
+                    className="inline-flex h-8 items-center gap-1.5 rounded-lg bg-[#0062ff] px-4 font-semibold text-white text-xs transition hover:bg-[#0052d9] shadow-2xs disabled:cursor-not-allowed disabled:opacity-40"
                     disabled={busy || locked !== null}
                     onClick={() => handleSave(provider)}
                     type="button"
@@ -369,7 +385,7 @@ export function ConnectionsView() {
             {locked ? (
               <span
                 aria-hidden
-                className="pointer-events-none absolute top-3 right-3 rounded-lg border border-white/10 bg-[#252524] px-2.5 py-1 text-[#EDE7DC] text-[11px] opacity-0 shadow-[0_12px_32px_rgba(0,0,0,0.45)] transition-opacity duration-150 group-hover/provider:opacity-100"
+                className="pointer-events-none absolute top-3 right-3 rounded-lg border border-border bg-popover px-2.5 py-1 text-popover-foreground text-[11px] opacity-0 shadow-md transition-opacity duration-150 group-hover/provider:opacity-100"
               >
                 {locked}
               </span>
@@ -378,23 +394,23 @@ export function ConnectionsView() {
         );
       })}
 
-      <p className="px-1 text-[#5E5A54] text-[11px] leading-5">
+      <p className="px-1 text-muted-foreground text-[11px] leading-5">
         Keys are encrypted at rest and never sent back to the browser. An empty
-        field falls back to the matching variable in <code className="text-[#7D7870]">.env</code>.
+        field falls back to the matching variable in <code className="text-foreground font-mono">.env</code>.
       </p>
 
       <section
         aria-labelledby="community-heading"
-        className="mt-3 rounded-2xl border border-white/8 bg-[#1A1A19] p-4 sm:p-5"
+        className="mt-3 rounded-xl border border-border bg-card p-4 sm:p-5 shadow-2xs"
       >
         <div>
           <h2
-            className="font-medium text-[#EDE7DC] text-sm"
+            className="font-bold text-foreground text-sm"
             id="community-heading"
           >
             Join the community
           </h2>
-          <p className="mt-1 text-[#9F9A92] text-xs leading-5">
+          <p className="mt-1 text-muted-foreground text-xs leading-5">
             Connect with AI marketers, share what you learn, and get support.
           </p>
         </div>
@@ -437,7 +453,7 @@ function CommunityMark({
   return (
     <span
       aria-hidden
-      className="flex size-10 shrink-0 items-end justify-center gap-1 rounded-xl border border-white/8 bg-[#101010] px-2 pb-2 shadow-[inset_0_1px_0_rgba(255,255,255,0.06)]"
+      className="flex size-10 shrink-0 items-end justify-center gap-1 rounded-xl border border-border bg-muted/40 px-2 pb-2 shadow-2xs"
     >
       {colors.map((color, index) => (
         <span
@@ -460,10 +476,10 @@ function Pill({
   tone: 'good' | 'warn' | 'info' | 'muted';
 }) {
   const tones = {
-    good: 'border-[#6FBF8B]/35 bg-[#6FBF8B]/10 text-[#6FBF8B]',
-    warn: 'border-[#E8B673]/35 bg-[#E8B673]/10 text-[#E8B673]',
-    info: 'border-[#7FA8D9]/35 bg-[#7FA8D9]/10 text-[#7FA8D9]',
-    muted: 'border-white/12 bg-white/[0.04] text-[#9F9A92]',
+    good: 'border-emerald-500/35 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 font-semibold',
+    warn: 'border-amber-500/35 bg-amber-500/10 text-amber-600 dark:text-amber-400 font-semibold',
+    info: 'border-blue-500/35 bg-blue-500/10 text-blue-600 dark:text-blue-400 font-semibold',
+    muted: 'border-border bg-muted/40 text-muted-foreground font-medium',
   };
   return (
     <span

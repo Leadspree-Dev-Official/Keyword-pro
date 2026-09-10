@@ -234,13 +234,13 @@ export function EndpointTabs({
                 <button
                   aria-pressed={active}
                   className={cn(
-                    'inline-flex h-8 shrink-0 items-center gap-1.5 rounded-full border bg-[#1D1D1C] px-3 font-medium text-xs',
+                    'inline-flex h-8 shrink-0 items-center gap-1.5 rounded-full border bg-card px-3 font-medium text-xs',
                     'transition-[background-color,border-color,color,transform] duration-150 ease-out',
-                    'active:scale-[0.97] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F2A65A]/55 focus-visible:ring-offset-1 focus-visible:ring-offset-[#1F1F1F]',
+                    'active:scale-[0.97] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0062ff]/55 focus-visible:ring-offset-1 focus-visible:ring-offset-background',
                     'disabled:cursor-not-allowed disabled:opacity-50 motion-reduce:transition-none motion-reduce:active:scale-100',
                     active
-                      ? 'border-[#F2A65A]/70 bg-[#F2A65A]/[0.07] text-[#EDE7DC]'
-                      : 'border-white/10 text-[#C9C4BC] hover:border-white/20 hover:bg-white/[0.055] hover:text-[#EDE7DC]',
+                      ? 'border-[#0062ff]/70 bg-blue-500/[0.10] text-[#0062ff] font-semibold'
+                      : 'border-border text-muted-foreground hover:border-border/80 hover:bg-muted hover:text-foreground',
                   )}
                   disabled={isRunning}
                   onClick={() => {
@@ -255,8 +255,8 @@ export function EndpointTabs({
                     className={cn(
                       'inline-flex h-4 min-w-4 items-center justify-center rounded-full px-1 font-semibold text-[10px] tabular-nums transition-colors duration-150',
                       selectedHere > 0
-                        ? 'bg-[#F2A65A] text-[#17120D]'
-                        : 'text-[#7D7870]',
+                        ? 'bg-[#0062ff] text-white'
+                        : 'text-muted-foreground',
                     )}
                   >
                     {selectedHere > 0 ? selectedHere : sub.count}
@@ -266,10 +266,10 @@ export function EndpointTabs({
               </PopoverTrigger>
               <PopoverContent
                 align="center"
-                className="w-[min(360px,calc(100vw-2rem))] rounded-2xl border-white/12 bg-[#252524] p-1.5 text-[#EDE7DC] shadow-[0_24px_80px_rgba(0,0,0,0.48)] duration-200 ease-out"
+                className="w-[min(360px,calc(100vw-2rem))] rounded-xl border border-border bg-popover p-2 text-popover-foreground shadow-lg duration-200 ease-out"
                 sideOffset={8}
               >
-                <div className="flex items-center gap-2 px-3 py-1.5 text-[10px] uppercase tracking-[0.14em] text-[#7D7870]">
+                <div className="flex items-center gap-2 px-3 py-1.5 text-[10px] uppercase tracking-[0.14em] text-muted-foreground font-semibold">
                   <Icon className={cn('size-3', meta.color)} />
                   {sub.label} · {subEndpoints.length} endpoints
                 </div>
@@ -280,10 +280,10 @@ export function EndpointTabs({
                       <button
                         aria-checked={isSelected}
                         className={cn(
-                          'flex w-full items-start gap-2 rounded-xl border px-2 py-2 text-left text-xs transition',
+                          'flex w-full items-start gap-2 rounded-lg border px-2.5 py-2 text-left text-xs transition',
                           isSelected
-                            ? 'border-[#F2A65A]/40 text-[#F5D1A8]'
-                            : 'border-transparent text-[#EDE7DC] hover:border-white/12 hover:bg-white/[0.04]',
+                            ? 'border-blue-500/40 bg-blue-500/[0.08] text-foreground'
+                            : 'border-transparent text-foreground hover:border-border hover:bg-muted/50',
                         )}
                         key={ep.type}
                         // One update, not two: see handleEndpointToggle.
@@ -295,8 +295,8 @@ export function EndpointTabs({
                           className={cn(
                             'mt-0.5 flex size-4 shrink-0 items-center justify-center rounded border transition',
                             isSelected
-                              ? 'border-[#F2A65A] bg-[#F2A65A] text-[#17120D]'
-                              : 'border-white/25 text-transparent',
+                              ? 'border-[#0062ff] bg-[#0062ff] text-white'
+                              : 'border-border text-transparent',
                           )}
                         >
                           <Check className="size-3" strokeWidth={3} />
@@ -306,12 +306,12 @@ export function EndpointTabs({
                           <span className="flex items-center gap-1.5 font-medium">
                             {subLabels.get(ep.type) ?? ep.type}
                             {ep.stub ? (
-                              <span className="rounded-full border border-[#F2A65A]/35 px-1.5 py-0 text-[9px] uppercase tracking-wide text-[#F2C48A]">
+                              <span className="rounded-full border border-blue-500/35 px-1.5 py-0 text-[9px] uppercase tracking-wide text-[#0062ff]">
                                 Access
                               </span>
                             ) : null}
                           </span>
-                          <span className="mt-0.5 line-clamp-1 text-[11px] text-[#9F9A92]">
+                          <span className="mt-0.5 line-clamp-1 text-[11px] text-muted-foreground">
                             {ep.description}
                           </span>
                         </span>
@@ -329,7 +329,7 @@ export function EndpointTabs({
           (Username, Keyword, URL, comma-separated keyword lists, etc.) absorb the value from the
           chat textarea instead. */}
       {showForm ? (
-        <div className="mt-4 rounded-2xl border border-white/8 bg-[#1F1F1E] p-3">
+        <div className="mt-4 rounded-xl border border-border bg-card p-4 shadow-2xs">
           <ParameterForm
             disabled={isRunning}
             endpoint={endpoint}

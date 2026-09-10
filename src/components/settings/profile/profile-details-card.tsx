@@ -163,7 +163,7 @@ export function ProfileDetailsCard({ className }: ProfileDetailsCardProps) {
               onClick={() => setShowAvatarPicker(!showAvatarPicker)}
               className="relative group"
             >
-              <div className="relative w-20 h-20 rounded-full bg-[#2A2A2A] border-2 border-[#3E3E3E] overflow-hidden flex items-center justify-center group-hover:border-[#87A9FF] transition-colors">
+              <div className="relative w-20 h-20 rounded-full bg-muted border-2 border-border overflow-hidden flex items-center justify-center group-hover:border-[#0062ff] transition-colors shadow-2xs">
                 <Image
                   src={profile.avatar_url || DEFAULT_AVATAR.url}
                   alt="Avatar"
@@ -180,8 +180,8 @@ export function ProfileDetailsCard({ className }: ProfileDetailsCardProps) {
           </div>
 
           {showAvatarPicker && (
-            <div className="mt-4 p-4 bg-[#1F1F1F] rounded-xl border border-[#3E3E3E]">
-              <p className="text-sm text-[#9CA3AF] mb-3">
+            <div className="mt-4 p-4 bg-muted/40 rounded-xl border border-border shadow-2xs">
+              <p className="text-sm font-medium text-muted-foreground mb-3">
                 Choose from preset avatars:
               </p>
               <div className="grid grid-cols-6 gap-3">
@@ -199,8 +199,8 @@ export function ProfileDetailsCard({ className }: ProfileDetailsCardProps) {
                         !profile.preset_avatar &&
                           avatar.id === DEFAULT_AVATAR.id
                       )
-                        ? 'border-[#87A9FF] ring-2 ring-[#87A9FF]/30'
-                        : 'border-[#3E3E3E] hover:border-[#87A9FF]/50'
+                        ? 'border-[#0062ff] ring-2 ring-[#0062ff]/30'
+                        : 'border-border hover:border-[#0062ff]/50'
                     }`}
                   >
                     <Image
@@ -237,7 +237,7 @@ export function ProfileDetailsCard({ className }: ProfileDetailsCardProps) {
                 }))
               }
               placeholder="Enter your name"
-              className="w-full px-4 py-3 bg-[#1F1F1F] border border-[#3E3E3E] rounded-xl text-[#E2E2E5] placeholder-[#6B7280] focus:outline-none focus:border-[#87A9FF] transition-colors"
+              className="w-full px-3.5 py-2.5 bg-background border border-border rounded-lg text-foreground placeholder:text-muted-foreground/60 focus:outline-none focus:border-[#0062ff] focus:ring-1 focus:ring-[#0062ff]/30 transition-colors text-sm"
             />
           </div>
 
@@ -256,21 +256,21 @@ export function ProfileDetailsCard({ className }: ProfileDetailsCardProps) {
               }
               placeholder="Tell us about yourself..."
               rows={4}
-              className="w-full px-4 py-3 bg-[#1F1F1F] border border-[#3E3E3E] rounded-xl text-[#E2E2E5] placeholder-[#6B7280] focus:outline-none focus:border-[#87A9FF] transition-colors resize-none"
+              className="w-full px-3.5 py-2.5 bg-background border border-border rounded-lg text-foreground placeholder:text-muted-foreground/60 focus:outline-none focus:border-[#0062ff] focus:ring-1 focus:ring-[#0062ff]/30 transition-colors resize-none text-sm"
             />
           </div>
         </CardContent>
 
-        <CardFooter className="mt-auto px-6 py-4 flex justify-end items-center bg-muted rounded-none">
+        <CardFooter className="mt-auto px-6 py-4 flex justify-end items-center bg-muted/40 border-t border-border/60 rounded-b-xl">
           <button
             type="button"
             onClick={handleSaveProfile}
             disabled={isSaving}
-            className="px-6 py-3 bg-[#87A9FF] hover:bg-[#9BB8FF] text-[#1F1F1F] font-semibold rounded-xl transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+            className="px-5 py-2.5 bg-[#0062ff] hover:bg-[#0052d9] text-white font-semibold rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2 shadow-2xs text-sm"
           >
             {isSaving ? (
               <>
-                <div className="w-4 h-4 border-2 border-[#1F1F1F]/30 border-t-[#1F1F1F] rounded-full animate-spin" />
+                <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
                 Saving...
               </>
             ) : (
